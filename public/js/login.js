@@ -37,6 +37,22 @@
       toastr.error("Unul sau mai multe câmpuri sunt goale sau conțin erori!");
       return;
     }
+    $.post('/login', {
+      _token: token,
+      email: email,
+      password: password,
+      remember: remember
+    }, function(json) {
+      if (!json.success) {
+        if (typeof json.field !== 'undefined') {
+          $('#' + json.field).addClass('invalid');
+        }
+        toastr.error(json.message);
+        return;
+      } else {
+        window.location.href = "/dashboard";
+      }
+    });
   });
 
 }).call(this);

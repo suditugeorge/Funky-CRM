@@ -35,4 +35,14 @@ $('#login').click (e) ->
 		toastr.error("Unul sau mai multe câmpuri sunt goale sau conțin erori!")
 		return
 
+	$.post '/login', {_token: token, email: email, password: password, remember: remember} , (json) ->
+		if !json.success
+			if(typeof json.field != 'undefined')
+				$('#'+json.field).addClass 'invalid'
+			toastr.error(json.message)
+			return
+		else
+			window.location.href = "/dashboard"
+		return
+
 	return

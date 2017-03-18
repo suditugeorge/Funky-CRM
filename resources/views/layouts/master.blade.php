@@ -15,7 +15,7 @@
 
 	</head>
 
-	<body class="fixed-sn white-skin">
+	<body class="fixed-sn cyan-skin">
 		<input type="hidden" name="_token" value="{{Session::token()}}">
 		@yield('content')
 		<script type="text/javascript" src="{{ URL::asset('js/layout/jquery-3.1.1.min.js') }}"></script>
