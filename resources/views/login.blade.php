@@ -31,7 +31,7 @@ Login
                         <div class="md-form">
                             <i class="fa fa-envelope prefix"></i>
                             <input type="text" id="email" class="form-control validate">
-                            <label for="email">Adresă de email</label>
+                            <label for="email">Email</label>
                         </div>
 
                         <div class="md-form">
