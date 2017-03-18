@@ -41,7 +41,7 @@ Login
                         </div>
 
                         <div class="text-center">
-                            <button class="btn btn-primary">Login</button>
+                            <button class="btn btn-primary" id="login">Login</button>
                         </div>
 
                     </div>
