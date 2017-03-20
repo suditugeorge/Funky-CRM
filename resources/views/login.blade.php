@@ -39,8 +39,12 @@ Login
                             <input type="password" id="password" class="form-control validate">
                             <label for="password">Parolă</label>
                         </div>
-
+                        
                         <div class="text-center">
+                            <fieldset class="form-group">
+                                <input type="checkbox" id="remember" name="remember">
+                                <label for="remember">Ține-mă minte</label>
+                            </fieldset>
                             <button class="btn btn-primary" id="login">Login</button>
                         </div>
 

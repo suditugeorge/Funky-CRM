@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', [
+Route::match(['get','post'],'/', [
     'as' => 'login',
     'uses' => 'MainController@login',
 ]);

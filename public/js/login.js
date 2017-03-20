@@ -37,7 +37,7 @@
       toastr.error("Unul sau mai multe câmpuri sunt goale sau conțin erori!");
       return;
     }
-    $.post('/login', {
+    $.post('/', {
       _token: token,
       email: email,
       password: password,
