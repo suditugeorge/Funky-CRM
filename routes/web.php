@@ -15,3 +15,13 @@ Route::match(['get','post'],'/', [
     'as' => 'login',
     'uses' => 'MainController@login',
 ]);
+
+//For all this routes all users must be loged in
+Route::group(['middleware' => 'isLogedIn'], function () {
+
+    Route::get('/dashboard', [
+        'uses' => 'UserController@dashboard',
+        'as' => 'dashboard',
+    ]);
+
+});
