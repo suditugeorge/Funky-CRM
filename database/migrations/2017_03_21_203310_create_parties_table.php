@@ -18,6 +18,7 @@ class CreatePartiesTable extends Migration
             $table->increments('id');
             $table->integer('politician_id')->unsigned();
             $table->foreign('politician_id')->references('id')->on('politicians');
+            $table->string('name');
             $table->date('from')->nullable();
             $table->date('until')->nullable();
         });
