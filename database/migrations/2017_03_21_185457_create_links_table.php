@@ -16,8 +16,8 @@ class CreateLinksTable extends Migration
         Schema::create('links', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->integer('media_id')->unsigned();
-            $table->foreign('media_id')->references('id')->on('media');
+            $table->integer('linkable_id')->unsigned();
+            $table->string('linkable_type');
             $table->string('url');
         });
     }
@@ -29,9 +29,6 @@ class CreateLinksTable extends Migration
      */
     public function down()
     {
-        Schema::table('links', function (Blueprint $table) {
-            $table->dropForeign(['media_id']);
-        });
         Schema::dropIfExists('links');
     }
 }

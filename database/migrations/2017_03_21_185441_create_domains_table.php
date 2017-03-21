@@ -16,8 +16,8 @@ class CreateDomainsTable extends Migration
         Schema::create('domains', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->integer('media_id')->unsigned();
-            $table->foreign('media_id')->references('id')->on('media');
+            $table->integer('domainable_id')->unsigned();
+            $table->string('domainable_type');
             $table->string('name');
         });
     }
@@ -29,9 +29,6 @@ class CreateDomainsTable extends Migration
      */
     public function down()
     {
-        Schema::table('domains', function (Blueprint $table) {
-            $table->dropForeign(['media_id']);
-        });
         Schema::dropIfExists('domains');
     }
 }
