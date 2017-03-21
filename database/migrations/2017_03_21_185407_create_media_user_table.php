@@ -14,6 +14,7 @@ class CreateMediaUserTable extends Migration
     public function up()
     {
         Schema::create('media_user', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->integer('media_id')->unsigned();
             $table->foreign('media_id')->references('id')->on('media');
             $table->integer('user_id')->unsigned();
