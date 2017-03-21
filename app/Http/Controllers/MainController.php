@@ -2,73 +2,73 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Hash;
-use App\User;
-use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class MainController extends Controller
 {
-	public function login(Request $request)
-	{
-        if($request->isMethod('get')){
+    public function login(Request $request)
+    {
+        if ($request->isMethod('get')) {
             $has_root = User::where('email', '=', 'root@funkycitizens.org')->first();
-            
-            if(is_null($has_root)){
+
+            if (is_null($has_root)) {
                 self::initializeRoot();
             }
 
-            if(Auth::check()){
+            if (Auth::check()) {
                 return redirect()->route('dashboard');
             }
 
-            return view('login');           
-        }elseif($request->isMethod('post')){
-            try{
+            return view('login');
+        } elseif ($request->isMethod('post')) {
+            try {
                 $email = $request['email'];
                 $password = $request['password'];
                 $remember = $request['remember'];
 
                 $user = User::where('email', '=', $email)->first();
-                
+
                 if ($user === null) {
                     return response()->json([
                         'success' => false,
                         'message' => 'Aceast utilizator nu există.',
                         'field' => 'email',
                     ]);
-                }elseif(Auth::attempt(['email' => $email, 'password' => $password], $remember)){
+                } elseif (Auth::attempt(['email' => $email, 'password' => $password], $remember)) {
                     return response()->json([
                         'success' => true,
-                    ]); 
-                }else{
+                    ]);
+                } else {
                     return response()->json([
                         'success' => false,
                         'message' => 'Parola este greșită',
                         'field' => 'password',
-                    ]);            
+                    ]);
                 }
 
-            }catch(\Exception $e){
-                    return response()->json([
-                        'success' => false,
-                        'message' => 'A intervenit o problemă! Vă rugăm să ne contactați telefonic.',
-                    ]);    
+            } catch (\Exception $e) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'A intervenit o problemă! Vă rugăm să ne contactați telefonic.',
+                ]);
             }
         }
 
-	}
+    }
 
     public function initializeRoot()
     {
-        try{
+        try {
             $user = new User();
             $user->name = "Admin";
             $user->email = "admin@funkycitizens.org";
             $user->password = Hash::make("admin");
-            $user->save();       
-            
-        }catch(\Exception $e){
+            $user->save();
+
+        } catch (\Exception $e) {
 
         }
     }
