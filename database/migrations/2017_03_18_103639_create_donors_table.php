@@ -18,6 +18,8 @@ class CreateDonorsTable extends Migration
             $table->increments('id');
             $table->integer('contact_id')->unsigned();
             $table->foreign('contact_id')->references('id')->on('contacts');
+            $table->tinyInteger('recurring_donations');
+            $table->string('legal_form')->comment('persoană fizică/juridică');
         });
     }
 
