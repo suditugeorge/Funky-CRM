@@ -14,6 +14,7 @@ class CreateDonationsTable extends Migration
     public function up()
     {
         Schema::create('donations', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->integer('donor_id')->unsigned();
             $table->foreign('donor_id')->references('id')->on('donors');
