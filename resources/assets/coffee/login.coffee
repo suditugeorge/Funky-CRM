@@ -6,6 +6,8 @@ $(document).keypress (e) ->
   return
 
 $('#login').click (e) ->
+	$('.fa-spinner').removeClass 'hidden'
+	$('#login').addClass 'hidden'
 	$('#email').removeClass 'invalid'
 	$('#password').removeClass 'invalid'
 	email = $('#email').val()
@@ -40,6 +42,8 @@ $('#login').click (e) ->
 			if(typeof json.field != 'undefined')
 				$('#'+json.field).addClass 'invalid'
 			toastr.error(json.message)
+			$('.fa-spinner').addClass 'hidden'
+			$('#login').removeClass 'hidden'
 			return
 		else
 			window.location.href = "/dashboard"

@@ -45,7 +45,7 @@ Login
                                 <input type="checkbox" id="remember" name="remember">
                                 <label for="remember">Ține-mă minte</label>
                             </fieldset>
-                            <button class="btn btn-primary" id="login">Login</button>
+                            <i class="fa fa-spinner fa-spin fa-3x fa-fw hidden"></i><button class="btn btn-primary" id="login">Login</button>
                         </div>
 
                     </div>

@@ -14,5 +14,6 @@ require('laravel-elixir-vue-2');
  */
 
 elixir(mix => {
-	 mix.coffee("login.coffee");
+	 mix.coffee("login.coffee")
+	 	.coffee("profile.coffee");
 });

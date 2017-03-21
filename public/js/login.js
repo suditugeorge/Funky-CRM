@@ -9,6 +9,8 @@
 
   $('#login').click(function(e) {
     var domainCheck, email, emailRegex, password, remember, token;
+    $('.fa-spinner').removeClass('hidden');
+    $('#login').addClass('hidden');
     $('#email').removeClass('invalid');
     $('#password').removeClass('invalid');
     email = $('#email').val();
@@ -48,6 +50,8 @@
           $('#' + json.field).addClass('invalid');
         }
         toastr.error(json.message);
+        $('.fa-spinner').addClass('hidden');
+        $('#login').removeClass('hidden');
         return;
       } else {
         window.location.href = "/dashboard";

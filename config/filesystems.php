@@ -55,6 +55,12 @@ return [
             'visibility' => 'public',
         ],
 
+        'user-profiles' => [
+            'driver' => 'local',
+            'root' => public_path() . '/images/users',
+            'visibility' => 'public',
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_KEY'),

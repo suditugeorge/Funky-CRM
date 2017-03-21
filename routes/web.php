@@ -24,4 +24,17 @@ Route::group(['middleware' => 'isLogedIn'], function () {
         'as' => 'dashboard',
     ]);
 
+	Route::get('/logout', [
+	    'as' => 'logout',
+	    'uses' => 'MainController@logout',
+	]);
+
+    Route::post('/change-profile-photo', [
+        'uses' => 'UserController@changeProfilePhoto',
+    ]);
+
+    Route::post('/change-user-profile', [
+        'uses' => 'UserController@updateProfile',
+    ]);
+
 });
