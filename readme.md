@@ -3,5 +3,5 @@
 
 ## Cont demo
 
-Utilizator: admin@funkycitizens.org
+Utilizator: admin@funkycitizens.org<br />
 Parolă: admin
