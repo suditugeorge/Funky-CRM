@@ -19,7 +19,6 @@ class CreateVolunteersTable extends Migration
             $table->integer('contact_id')->unsigned();
             $table->foreign('contact_id')->references('id')->on('contacts');
             $table->text('availability');
-            $table->text('observations');
             $table->integer('rating');
         });
     }
