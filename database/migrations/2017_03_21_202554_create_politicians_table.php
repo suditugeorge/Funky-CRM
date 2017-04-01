@@ -36,7 +36,6 @@ class CreatePoliticiansTable extends Migration
     {
         Schema::table('politicians', function (Blueprint $table) {
             $table->dropForeign(['contact_id']);
-            $table->dropForeign(['party_id']);
         });
         Schema::dropIfExists('politicians');
     }

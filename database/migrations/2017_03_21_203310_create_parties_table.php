@@ -22,10 +22,6 @@ class CreatePartiesTable extends Migration
             $table->date('from')->nullable();
             $table->date('until')->nullable();
         });
-        Schema::table('politicians', function (Blueprint $table) {
-            $table->integer('party_id')->unsigned()->comment('partidul actual')->after('contact_id');
-            $table->foreign('party_id')->references('id')->on('parties');
-        });
     }
 
     /**
@@ -35,9 +31,8 @@ class CreatePartiesTable extends Migration
      */
     public function down()
     {
-        Schema::table('politicians', function (Blueprint $table) {
-            $table->dropForeign(['party_id']);
-            $table->dropColumn('party_id');
+        Schema::table('parties', function (Blueprint $table) {
+            $table->dropForeign(['politician_id']);
         });
         Schema::dropIfExists('parties');
     }
