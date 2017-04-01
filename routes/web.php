@@ -9,9 +9,9 @@
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+ */
 
-Route::match(['get','post'],'/', [
+Route::match(['get', 'post'], '/', [
     'as' => 'login',
     'uses' => 'MainController@login',
 ]);
@@ -24,10 +24,10 @@ Route::group(['middleware' => 'isLogedIn'], function () {
         'as' => 'dashboard',
     ]);
 
-	Route::get('/logout', [
-	    'as' => 'logout',
-	    'uses' => 'MainController@logout',
-	]);
+    Route::get('/logout', [
+        'as' => 'logout',
+        'uses' => 'MainController@logout',
+    ]);
 
     Route::post('/change-profile-photo', [
         'uses' => 'UserController@changeProfilePhoto',
@@ -36,5 +36,7 @@ Route::group(['middleware' => 'isLogedIn'], function () {
     Route::post('/change-user-profile', [
         'uses' => 'UserController@updateProfile',
     ]);
+
+    Route::resource('media', 'MediaController');
 
 });
