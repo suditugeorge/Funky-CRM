@@ -38,6 +38,7 @@ Route::group(['middleware' => 'isLogedIn'], function () {
     ]);
 
     Route::resource('media', 'MediaController');
+    Route::resource('volunteers', 'VolunteersController');
 
     Route::get('/users', [
         'as' => 'users',
