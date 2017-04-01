@@ -39,4 +39,18 @@ Route::group(['middleware' => 'isLogedIn'], function () {
 
     Route::resource('media', 'MediaController');
 
+    Route::get('/users', [
+        'as' => 'users',
+        'uses' => 'UserController@searchUsers',
+    ]);
+
+    //For all this routes all users must be admins
+    Route::group(['middleware' => 'isLogedIn'], function () {
+
+        Route::get('/add-funky', [
+            'uses' => 'UserController@addFunkyUser',
+        ]);
+
+    });
+
 });

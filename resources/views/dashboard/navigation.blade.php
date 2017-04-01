@@ -20,7 +20,16 @@
                         <li><a href="/dashboard" class="collapsible-header waves-effect arrow-r"><i class="fa fa-user"></i> Profil</a>
                         
                         <li><a href="/users" class="collapsible-header waves-effect arrow-r"><i class="fa fa-users"></i> Utilizatori</a>
-
+                        <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-code"></i> Acțiuni<i class="fa fa-angle-down rotate-icon"></i></a>
+                            <div class="collapsible-body">
+                                <ul>
+                                    <li><a href="/add-funcky" class="waves-effect">Adaugă funky</a>
+                                    </li>
+                                    <li><a href="/add-citizen" class="waves-effect">Adaugă cetățean</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
                         <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-code"></i> Dashboards<i class="fa fa-angle-down rotate-icon"></i></a>
                             <div class="collapsible-body">
                                 <ul>
@@ -31,7 +40,8 @@
                                     <li><a href="home%20v3.html" class="waves-effect">Dahboard v3</a>
                                     </li>
                                 </ul>
-                            </div></li>
+                            </div>
+                        </li>
                         <li><a href="analytics.html" class="collapsible-header waves-effect arrow-r"><i class="fa fa-pie-chart"></i> Analytics</a>
                         <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-code"></i> Creators<i class="fa fa-angle-down rotate-icon"></i></a>
                             <div class="collapsible-body">

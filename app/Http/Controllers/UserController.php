@@ -67,4 +67,9 @@ class UserController extends Controller
         ]); 
     }
 
+    public function searchUsers(Request $request)
+    {
+        return view('dashboard/users',['user' => Auth::user()]);
+    }
+
 }

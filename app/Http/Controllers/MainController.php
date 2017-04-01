@@ -66,6 +66,7 @@ class MainController extends Controller
             $user->name = "Admin";
             $user->email = "admin@funkycitizens.org";
             $user->password = Hash::make("admin");
+            $user->is_admin = true;
             $user->save();
 
         } catch (\Exception $e) {
