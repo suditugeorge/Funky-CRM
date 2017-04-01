@@ -16,6 +16,10 @@ Route::match(['get', 'post'], '/', [
     'uses' => 'MainController@login',
 ]);
 
+Route::post('/reset-password', [
+    'uses' => 'UserController@resetPassword',
+]);
+
 //For all this routes all users must be loged in
 Route::group(['middleware' => 'isLogedIn'], function () {
 

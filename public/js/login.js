@@ -59,6 +59,46 @@
     });
   });
 
+  $('#forgot-password').click(function(e) {
+    var domainCheck, email, emailRegex, token;
+    $('#email').removeClass('invalid');
+    email = $('#email').val();
+    token = $('[name="_token"]').val();
+    if (email.trim() === "") {
+      $('#email').addClass('invalid');
+      toastr.error("Te rugăm să introduci o adresă de email");
+      return;
+    }
+    emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (!emailRegex.test(email)) {
+      $('#email').addClass('invalid');
+      toastr.error("Adresa de email este invalidă");
+      return;
+    }
+    domainCheck = /@funkycitizens.org\s*$/;
+    if (!domainCheck.test(email)) {
+      $('#email').addClass('invalid');
+      toastr.error("Adresa de email este invalidă");
+      return;
+    }
+    $.post('/reset-password', {
+      _token: token,
+      email: email
+    }, function(json) {
+      if (!json.success) {
+        if (typeof json.field !== 'undefined') {
+          $('#' + json.field).addClass('invalid');
+        }
+        toastr.error(json.message);
+        $('.fa-spinner').addClass('hidden');
+        $('#login').removeClass('hidden');
+        return;
+      } else {
+        toastr.success(json.message);
+      }
+    });
+  });
+
 }).call(this);
 
 //# sourceMappingURL=login.js.map

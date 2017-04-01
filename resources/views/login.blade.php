@@ -45,7 +45,11 @@ Login
                         </div>
 
                     </div>
-
+    <div class="modal-footer">
+        <div class="options">
+            <p><a href="#" id="forgot-password">Ai uitat parola?</a></p>
+        </div>
+    </div>
                 </div>
                 <!--/Form with header-->
 

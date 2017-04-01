@@ -103,4 +103,26 @@ class UserController extends Controller
     
     }
 
+    public function resetPassword(Request $request)
+    {
+        $user = User::where('email','=',$request['email'])->first();
+        if($user == NULL){
+            return response()->json(['success'=>false,'message' => 'Acest user nu există','field' => 'email']);
+        }
+
+        $password = str_random(8);
+        $user->password = Hash::make($password);
+        $user->update();
+
+        $data = ['email' => $user->email, 'password' => $password];
+
+        Mail::send('email-templates.reset-password', $data, function ($m) use ($user) {
+            $m->from('i.tconsult99@gmail.com', 'Funcky-Catalog');
+            $m->to($user->email)->subject('Funky-Catalog are nevoie de atenția ta!');
+        });
+
+        return response()->json(['success'=>true,'message' => 'A fost trimis un email către adresa respectivă']);
+
+    }
+
 }
