@@ -72,4 +72,14 @@ class UserController extends Controller
         return view('dashboard/users',['user' => Auth::user()]);
     }
 
+    public function addFunkyUser(Request $request)
+    {
+        if($request->isMethod('get')){
+            return view('dashboard/add-funky',['user' => Auth::user()]);
+        }
+
+        return response()->json(['success'=>true,'message' => 'Utilizatorii au fost modificați']);
+    
+    }
+
 }

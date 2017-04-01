@@ -23,7 +23,7 @@
                         <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-code"></i> Acțiuni<i class="fa fa-angle-down rotate-icon"></i></a>
                             <div class="collapsible-body">
                                 <ul>
-                                    <li><a href="/add-funcky" class="waves-effect">Adaugă funky</a>
+                                    <li><a href="/add-funky" class="waves-effect">Adaugă funky</a>
                                     </li>
                                     <li><a href="/add-citizen" class="waves-effect">Adaugă cetățean</a>
                                     </li>

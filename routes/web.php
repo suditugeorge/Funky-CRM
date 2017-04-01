@@ -47,7 +47,7 @@ Route::group(['middleware' => 'isLogedIn'], function () {
     //For all this routes all users must be admins
     Route::group(['middleware' => 'isLogedIn'], function () {
 
-        Route::get('/add-funky', [
+        Route::match(['get','post'], '/add-funky', [
             'uses' => 'UserController@addFunkyUser',
         ]);
 
