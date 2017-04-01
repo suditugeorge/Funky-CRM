@@ -5,9 +5,6 @@ Profil
 @endsection
 
 
-@section('styles')
-@endsection
-
 @section('content')
 @include('dashboard.navigation')
 
@@ -49,7 +46,7 @@ Profil
                                 </div>
                             </form>
                         </div>
-                        
+
                         <!-- /.Card content -->
 
                     </div>
@@ -88,27 +85,26 @@ Profil
 
 @endsection
 
-@section('scripts')
-<script type="text/javascript" src="{{ URL::asset('js/profile.js') }}"></script>
-<script>
-// Data Picker Initialization
-$('.datepicker').pickadate();
+@push('scripts')
+    <script type="text/javascript" src="{{ URL::asset('js/profile.js') }}"></script>
+    <script>
+    // Data Picker Initialization
+    $('.datepicker').pickadate();
 
 
-// Material Select Initialization
-$(document).ready(function() {
-    $('.mdb-select').material_select();
-});
+    // Material Select Initialization
+    $(document).ready(function() {
+        $('.mdb-select').material_select();
+    });
 
-// Sidenav Initialization
-$(".button-collapse").sideNav();
-var el = document.querySelector('.custom-scrollbar');
-Ps.initialize(el);
+    // Sidenav Initialization
+    $(".button-collapse").sideNav();
+    var el = document.querySelector('.custom-scrollbar');
+    Ps.initialize(el);
 
-// Tooltips Initialization
-$(function() {
-    $('[data-toggle="tooltip"]').tooltip();
-});
-</script>
-@endsection
-
+    // Tooltips Initialization
+    $(function() {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+    </script>
+@endpush

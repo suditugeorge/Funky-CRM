@@ -10,8 +10,8 @@
 		<link rel="stylesheet" href="{{ URL::asset('css/layout/bootstrap.min.css') }}" />
 		<link rel="stylesheet" href="{{ URL::asset('css/layout/mdb.css') }}" />
 		<link rel="stylesheet" href="{{ URL::asset('css/layout/toastr.css') }}" />
-		
-		@yield('styles')
+
+		@stack('styles')
 
 	</head>
 
@@ -23,6 +23,6 @@
 		<script type="text/javascript" src="{{ URL::asset('js/layout/bootstrap.min.js') }}"></script>
 		<script type="text/javascript" src="{{ URL::asset('js/layout/mdb.min.js') }}"></script>
 		<script type="text/javascript" src="{{ URL::asset('js/layout/toastr.js') }}"></script>
-		@yield('scripts')
+		@stack('scripts')
 	</body>
 </html>

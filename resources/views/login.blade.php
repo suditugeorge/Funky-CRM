@@ -4,20 +4,16 @@
 Login
 @endsection
 
-@section('scripts')
-<script type="text/javascript" src="{{ URL::asset('js/login.js') }}"></script>
-@endsection
-
-@section('styles')
-
-@endsection
+@push('scripts')
+    <script type="text/javascript" src="{{ URL::asset('js/login.js') }}"></script>
+@endpush
 
 @section('content')
 
     <div class="container">
         <div class="row">
             <div class="col-md-6 col-lg-5 login-form mx-auto float-none">
-                
+
                 <!--Form with header-->
                 <div class="card">
                     <div class="card-block">
@@ -39,7 +35,7 @@ Login
                             <input type="password" id="password" class="form-control validate">
                             <label for="password">Parolă</label>
                         </div>
-                        
+
                         <div class="text-center">
                             <fieldset class="form-group">
                                 <input type="checkbox" id="remember" name="remember">
