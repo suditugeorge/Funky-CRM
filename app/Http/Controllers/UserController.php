@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Auth;
 use Validator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Mail;
 
 class UserController extends Controller
 {
@@ -78,7 +81,25 @@ class UserController extends Controller
             return view('dashboard/add-funky',['user' => Auth::user()]);
         }
 
-        return response()->json(['success'=>true,'message' => 'Utilizatorii au fost modificați']);
+        $request->emails = preg_split('`\s`', $request->emails);
+        foreach ($request->emails as $email) {
+
+            $user = new User();
+            $user->name = "Utilizator Funky";
+            $user->email = $email;
+            $password = str_random(8);
+            $user->password = Hash::make($password);
+            $user->is_admin = 0;
+            $user->save();
+
+            $data = ['email' => $email,'password' => $password];
+
+            Mail::send('email-templates.add-admin', $data, function ($m) use ($email) {
+                $m->from('i.tconsult99@gmail.com', 'Funcky-Catalog');
+                $m->to($email)->subject('Funky-Catalog are nevoie de atenția ta!');
+            });
+        }
+        return response()->json(['success'=>true,'message' => 'Utilizatorii au fost adăugați']);
     
     }
 

@@ -51,6 +51,10 @@ Route::group(['middleware' => 'isLogedIn'], function () {
             'uses' => 'UserController@addFunkyUser',
         ]);
 
+        Route::get('/email-view/addFunky', [
+            'uses' => 'EmailViews@addFunkyUser',
+        ]);
+
     });
 
 });
