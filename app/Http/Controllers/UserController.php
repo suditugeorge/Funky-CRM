@@ -151,10 +151,37 @@ class UserController extends Controller
         return response()->json(['success'=>true, 'url' => url('/edit-citizen/'.$contact->id)]);
     }
 
-    public function editCitizen(Request $request,$id)
+    public function editCitizenView(Request $request,$id)
     {
-        if($request->isMethod('get')){
-            return view('edit-citizen/edit-citizen',['user' => Auth::user()]);
+
+        $contact = Contact::where('id','=',$id)->first();
+
+        return view('edit-citizen/edit-citizen',['user' => Auth::user(),'contact' => $contact]);
+
+    }
+
+    public function editCitizen(Request $request)
+    {
+
+        $contact_id = $request->contact_id;
+
+        //die(print_r($request->email));
+
+        if(isset($request->basic) && $request->basic = true){
+            $contact = Contact::where('id','=',$contact_id)->first();
+            $contact->email = $request->email;
+            $contact->first_name = $request->nume;
+            $contact->last_name = $request->prenume;
+            $contact->secondary_email = $request->email2;
+            $contact->phone = $request->phone;
+            $contact->facebook_profile = $request->facebook_profil;
+            $contact->facebook_page = $request->facebook_pagina;
+            $contact->website = $request->site;
+            $contact->observations = $request->observatii;
+            $contact->update();
+
+            return response()->json(['success'=>true]);
+
         }
     }
 

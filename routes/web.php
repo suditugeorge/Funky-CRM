@@ -38,7 +38,10 @@ Route::group(['middleware' => 'isLogedIn'], function () {
         'uses' => 'UserController@addCitizen',
     ]);
 
-    Route::match(['get','post'],'/edit-citizen/{id}', [
+    Route::get('/edit-citizen/{id}', [
+        'uses' => 'UserController@editCitizenView',
+    ]);
+    Route::post('/edit-citizen', [
         'uses' => 'UserController@editCitizen',
     ]);
 
