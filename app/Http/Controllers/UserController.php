@@ -158,7 +158,14 @@ class UserController extends Controller
     public function editCitizenView(Request $request,$id)
     {
 
-        $contact = Contact::where('id','=',$id)->first();
+        $contact = Contact::with('volunteer')->where('id','=',$id)->first();
+        //die(print_r($contact->volunteer));
+        /*
+        foreach ($contact->volunteer as $volunteer) {
+            //$attend = $volunteer->attends[0]->event;
+            die(print_r($volunteer->domains));
+        }
+        */
 
         return view('edit-citizen/edit-citizen',['user' => Auth::user(),'contact' => $contact]);
 

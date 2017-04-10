@@ -118,7 +118,9 @@ Adaugă cetățean
 </div>
 
 @include('edit-citizen.add-volunteer')
-
+@foreach($contact->volunteer as $vol)
+	@include('edit-citizen.see-volunteer',['volunteer' => $vol])
+@endforeach
 </main>
 
 

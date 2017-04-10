@@ -98,3 +98,6 @@ $('#new-volunteer-skills').select2({
 $('#volunteer-rating').barrating({
 theme: 'fontawesome-stars'
 });
+$('.volunteer-skills').select2({
+  tags: true
+})

@@ -105,6 +105,10 @@
     theme: 'fontawesome-stars'
   });
 
+  $('.volunteer-skills').select2({
+    tags: true
+  });
+
 }).call(this);
 
 //# sourceMappingURL=edit-citizen.js.map
