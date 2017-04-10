@@ -33,6 +33,11 @@ Route::group(['middleware' => 'isLogedIn'], function () {
         'uses' => 'MainController@logout',
     ]);
 
+    Route::get('/add-citizen', [
+        'uses' => 'UserController@addCitizen',
+    ]);
+
+
     Route::post('/change-profile-photo', [
         'uses' => 'UserController@changeProfilePhoto',
     ]);

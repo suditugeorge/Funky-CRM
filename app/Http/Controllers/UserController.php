@@ -128,4 +128,9 @@ class UserController extends Controller
 
     }
 
+    public function addCitizen()
+    {
+        return view('dashboard/add-citizen',['user' => Auth::user()]);
+    }
+
 }
