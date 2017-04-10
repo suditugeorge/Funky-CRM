@@ -18,8 +18,8 @@ class CreateVolunteersTable extends Migration
             $table->increments('id');
             $table->integer('contact_id')->unsigned();
             $table->foreign('contact_id')->references('id')->on('contacts');
-            $table->text('availability');
-            $table->integer('rating');
+            $table->text('availability')->nullable();
+            $table->integer('rating')->nullable();
         });
     }
 
