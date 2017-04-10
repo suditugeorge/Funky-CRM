@@ -15,75 +15,75 @@
                   <h5>Adăugare voluntar</h5>
                 </div>
                 <div class="card-block">
-                  {{ Form::open(['route' => 'volunteers.store', 'class' => 'form-horizontal']) }}
+                  {{ Form::model($volunteer, ['route' => ['volunteers.update', $volunteer->id], 'method' => 'PUT', 'class' => 'form-horizontal']) }}
                     <div class="row">
                       <div class="col-md-6">
-                        <div class="md-form{{ $errors->has('first_name') ? ' has-danger' : '' }}">
-                          {{ Form::text('first_name', null, ['class' => 'form-control']) }}
-                          {{ Form::label('first_name', 'Prenume') }}
-                          {!! $errors->first('first_name', '<span class="help-block">:message</span>') !!}
+                        <div class="md-form{{ $errors->has('contact.first_name') ? ' has-danger' : '' }}">
+                          {{ Form::text('contact[first_name]', null, ['class' => 'form-control']) }}
+                          {{ Form::label('contact[first_name]', 'Prenume') }}
+                          {!! $errors->first('contact.first_name', '<span class="help-block">:message</span>') !!}
                         </div>
                       </div>
                       <div class="col-md-6">
-                        <div class="md-form{{ $errors->has('last_name') ? ' has-danger' : '' }}">
-                          {{ Form::text('last_name', null, ['class' => 'form-control validate']) }}
-                          {{ Form::label('last_name', 'Nume') }}
-                          {!! $errors->first('last_name', '<span class="help-block">:message</span>') !!}
+                        <div class="md-form{{ $errors->has('contact.last_name') ? ' has-danger' : '' }}">
+                          {{ Form::text('contact[last_name]', null, ['class' => 'form-control validate']) }}
+                          {{ Form::label('contact[last_name]', 'Nume') }}
+                          {!! $errors->first('contact.last_name', '<span class="help-block">:message</span>') !!}
                         </div>
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-md-4">
-                        <div class="md-form{{ $errors->has('email') ? ' has-danger' : '' }}">
-                          {{ Form::text('email', null, ['class' => 'form-control validate']) }}
-                          {{ Form::label('email', 'E-mail') }}
-                          {!! $errors->first('email', '<span class="help-block">:message</span>') !!}
+                        <div class="md-form{{ $errors->has('contact.email') ? ' has-danger' : '' }}">
+                          {{ Form::text('contact[email]', null, ['class' => 'form-control validate']) }}
+                          {{ Form::label('contact[email]', 'E-mail') }}
+                          {!! $errors->first('contact.email', '<span class="help-block">:message</span>') !!}
                         </div>
                       </div>
                       <div class="col-md-4">
-                        <div class="md-form{{ $errors->has('secondary_email') ? ' has-danger' : '' }}">
-                          {{ Form::text('secondary_email', null, ['class' => 'form-control validate']) }}
-                          {{ Form::label('secondary_email', 'E-mail secundar') }}
-                          {!! $errors->first('secondary_email', '<span class="help-block">:message</span>') !!}
+                        <div class="md-form{{ $errors->has('contact.secondary_email') ? ' has-danger' : '' }}">
+                          {{ Form::text('contact[secondary_email]', null, ['class' => 'form-control validate']) }}
+                          {{ Form::label('contact[secondary_email]', 'E-mail secundar') }}
+                          {!! $errors->first('contact.secondary_email', '<span class="help-block">:message</span>') !!}
                         </div>
                       </div>
                       <div class="col-md-4">
-                        <div class="md-form{{ $errors->has('phone') ? ' has-danger' : '' }}">
-                          {{ Form::text('phone', null, ['class' => 'form-control validate']) }}
-                          {{ Form::label('phone', 'Telefon') }}
-                          {!! $errors->first('phone', '<span class="help-block">:message</span>') !!}
+                        <div class="md-form{{ $errors->has('contact.phone') ? ' has-danger' : '' }}">
+                          {{ Form::text('contact[phone]', null, ['class' => 'form-control validate']) }}
+                          {{ Form::label('contact[phone]', 'Telefon') }}
+                          {!! $errors->first('contact.phone', '<span class="help-block">:message</span>') !!}
                         </div>
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-md-4">
-                        <div class="md-form{{ $errors->has('facebook_profile') ? ' has-danger' : '' }}">
-                          {{ Form::text('facebook_profile', null, ['class' => 'form-control validate']) }}
-                          {{ Form::label('facebook_profile', 'Profil Facebook') }}
-                          {!! $errors->first('facebook_profile', '<span class="help-block">:message</span>') !!}
+                        <div class="md-form{{ $errors->has('contact.facebook_profile') ? ' has-danger' : '' }}">
+                          {{ Form::text('contact[facebook_profile]', null, ['class' => 'form-control validate']) }}
+                          {{ Form::label('contact[facebook_profile]', 'Profil Facebook') }}
+                          {!! $errors->first('contact.facebook_profile', '<span class="help-block">:message</span>') !!}
                         </div>
                       </div>
                       <div class="col-md-4">
-                        <div class="md-form{{ $errors->has('facebook_page') ? ' has-danger' : '' }}">
-                          {{ Form::text('facebook_page', null, ['class' => 'form-control validate']) }}
-                          {{ Form::label('facebook_page', 'Pagină Facebook') }}
-                          {!! $errors->first('facebook_page', '<span class="help-block">:message</span>') !!}
+                        <div class="md-form{{ $errors->has('contact.facebook_page') ? ' has-danger' : '' }}">
+                          {{ Form::text('contact[facebook_page]', null, ['class' => 'form-control validate']) }}
+                          {{ Form::label('contact[facebook_page]', 'Pagină Facebook') }}
+                          {!! $errors->first('contact.facebook_page', '<span class="help-block">:message</span>') !!}
                         </div>
                       </div>
                       <div class="col-md-4">
-                        <div class="md-form{{ $errors->has('website') ? ' has-danger' : '' }}">
-                          {{ Form::text('website', null, ['class' => 'form-control validate']) }}
-                          {{ Form::label('website', 'Website') }}
-                          {!! $errors->first('website', '<span class="help-block">:message</span>') !!}
+                        <div class="md-form{{ $errors->has('contact.website') ? ' has-danger' : '' }}">
+                          {{ Form::text('contact[website]', null, ['class' => 'form-control validate']) }}
+                          {{ Form::label('contact[website]', 'contact[website]') }}
+                          {!! $errors->first('contact.website', '<span class="help-block">:message</span>') !!}
                         </div>
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-md-12">
-                        <div class="md-form{{ $errors->has('observations') ? ' has-danger' : '' }}">
-                          {{ Form::textarea('observations', null, ['class' => 'md-textarea']) }}
-                          {{ Form::label('observations', 'Observații') }}
-                          {!! $errors->first('observations', '<span class="help-block">:message</span>') !!}
+                        <div class="md-form{{ $errors->has('contact.observations') ? ' has-danger' : '' }}">
+                          {{ Form::textarea('contact[observations]', null, ['class' => 'md-textarea']) }}
+                          {{ Form::label('contact[observations]', 'Observații') }}
+                          {!! $errors->first('contact.observations', '<span class="help-block">:message</span>') !!}
                         </div>
                       </div>
                     </div>
@@ -107,7 +107,7 @@
                     </div>
                     <div class="row">
                       <div class="col-md-12 text-center">
-                        {{ Form::submit('Adaugă voluntar', ['class' => 'btn btn-primary']) }}
+                        {{ Form::submit('Editează voluntar', ['class' => 'btn btn-primary']) }}
                       </div>
                     </div>
                   {{ Form::close() }}
