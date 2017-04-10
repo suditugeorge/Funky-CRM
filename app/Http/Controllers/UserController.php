@@ -58,6 +58,9 @@ class UserController extends Controller
             $user = Auth::user();
 
             $user->name = $request['name'];
+            if($request['password'] && trim($request['password']) != ""){
+                $user->password = Hash::make($request['password']);
+            }
             $user->update();
         }catch(\Exception $e){
             return response()->json([
