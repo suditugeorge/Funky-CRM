@@ -51,7 +51,7 @@ class VolunteersController extends Controller
         $this->validate($request, [
             'contact.first_name' => 'required',
             'contact.last_name' => 'required',
-            'contact.email' => "quired|unique:contacts,email,{$volunteer->contact->id}",
+            'contact.email' => "required|unique:contacts,email,{$volunteer->contact->id}",
             'contact.observations' => 'required',
         ]);
         $volunteer->update(array_only(request()->all(), ['availability', 'rating']));
