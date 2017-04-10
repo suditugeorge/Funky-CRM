@@ -33,7 +33,7 @@ Route::group(['middleware' => 'isLogedIn'], function () {
         'uses' => 'MainController@logout',
     ]);
 
-    Route::get('/add-citizen', [
+    Route::match(['get','post'],'/add-citizen', [
         'uses' => 'UserController@addCitizen',
     ]);
 

@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-Profil
+Adaugă cetățean
 @endsection
 
 
@@ -80,12 +80,18 @@ Profil
                       <input type="text" id="facebook_pagina" class="form-control validate">
                       <label for="facebook_pagina">Pagină Facebook</label>
                   </div>
+              </div>
+              <div class="col-md-12">
+                  <div class="md-form">
+                      <textarea type="text" id="observatii" class="md-textarea" style="resize:vertical;"></textarea>
+                      <label for="observatii">Observații</label>
+                  </div>
               </div>              
             </div>
 
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <i class="fa fa-spinner fa-spin fa-3x fa-fw hidden"></i><button class="btn btn-primary" id="change-user-profile">Schimbă datele</button>
+                    <i class="fa fa-spinner fa-spin fa-3x fa-fw hidden"></i><button class="btn btn-primary" id="add-citizen">Adaugă cetățean</button>
                 </div>
             </div>
         </form>
@@ -103,7 +109,7 @@ Profil
 @endsection
 
 @push('scripts')
-    <script type="text/javascript" src="{{ URL::asset('js/profile.js') }}"></script>
+    <script type="text/javascript" src="{{ URL::asset('js/add-citizen.js') }}"></script>
     <script>
     // Data Picker Initialization
     $('.datepicker').pickadate();

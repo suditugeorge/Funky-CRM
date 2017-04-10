@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\File;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Mail;
+use App\Models\Contact;
 
 class UserController extends Controller
 {
@@ -128,9 +129,26 @@ class UserController extends Controller
 
     }
 
-    public function addCitizen()
+    public function addCitizen(Request $request)
     {
-        return view('dashboard/add-citizen',['user' => Auth::user()]);
+        if($request->isMethod('get')){
+            return view('dashboard/add-citizen',['user' => Auth::user()]);
+        }
+        
+        $contact = new Contact();
+        $contact->email = $request->email;
+        $contact->first_name = $request->nume;
+        $contact->last_name = $request->prenume;
+        $contact->secondary_email = $request->email2;
+        $contact->phone = $request->phone;
+        $contact->facebook_profile = $request->facebook_profil;
+        $contact->facebook_page = $request->facebook_pagina;
+        $contact->website = $request->site;
+        $contact->observations = $request->observatii;
+
+        $contact->save();
+        $url = '/edit-citizen/'.$contact->id;
+        return response()->json(['success'=>true, 'url' => url('/edit-citizen/'.$contact->id)]);
     }
 
 }

@@ -24,7 +24,7 @@ class CreateContactsTable extends Migration
             $table->string('facebook_profile')->nullable();
             $table->string('facebook_page')->nullable();
             $table->string('website')->nullable();
-            $table->text('observations');
+            $table->text('observations')->nullable();
             $table->timestamps();
         });
     }
