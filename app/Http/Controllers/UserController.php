@@ -151,4 +151,11 @@ class UserController extends Controller
         return response()->json(['success'=>true, 'url' => url('/edit-citizen/'.$contact->id)]);
     }
 
+    public function editCitizen(Request $request,$id)
+    {
+        if($request->isMethod('get')){
+            return view('edit-citizen/edit-citizen',['user' => Auth::user()]);
+        }
+    }
+
 }

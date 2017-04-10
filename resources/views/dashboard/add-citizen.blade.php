@@ -6,7 +6,6 @@ Adaugă cetățean
 
 
 @section('content')
-@include('dashboard.navigation')
 <main>
 
 <div class="card card-cascade narrower mb-r">
@@ -110,24 +109,4 @@ Adaugă cetățean
 
 @push('scripts')
     <script type="text/javascript" src="{{ URL::asset('js/add-citizen.js') }}"></script>
-    <script>
-    // Data Picker Initialization
-    $('.datepicker').pickadate();
-
-
-    // Material Select Initialization
-    $(document).ready(function() {
-        $('.mdb-select').material_select();
-    });
-
-    // Sidenav Initialization
-    $(".button-collapse").sideNav();
-    var el = document.querySelector('.custom-scrollbar');
-    Ps.initialize(el);
-
-    // Tooltips Initialization
-    $(function() {
-        $('[data-toggle="tooltip"]').tooltip();
-    });
-    </script>
 @endpush

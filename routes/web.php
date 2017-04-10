@@ -33,10 +33,14 @@ Route::group(['middleware' => 'isLogedIn'], function () {
         'uses' => 'MainController@logout',
     ]);
 
+
     Route::match(['get','post'],'/add-citizen', [
         'uses' => 'UserController@addCitizen',
     ]);
 
+    Route::match(['get','post'],'/edit-citizen/{id}', [
+        'uses' => 'UserController@editCitizen',
+    ]);
 
     Route::post('/change-profile-photo', [
         'uses' => 'UserController@changeProfilePhoto',
