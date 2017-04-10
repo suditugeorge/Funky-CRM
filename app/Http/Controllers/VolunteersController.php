@@ -10,7 +10,7 @@ class VolunteersController extends Controller
 {
     public function index()
     {
-        $volunteers = Volunteer::all()->paginate(1);
+        $volunteers = Volunteer::paginate(5);
         return view('volunteers.index', compact('volunteers'));
     }
 
@@ -21,10 +21,15 @@ class VolunteersController extends Controller
 
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'first_name' => 'required|',
+            'last_name' => 'required',
+            'email' => 'required|unique:contacts,email',
+            'observations' => 'required',
+        ]);
         $contact = Contact::create(request()->only('first_name', 'last_name', 'email', 'secondary_email', 'phone', 'facebook_profile', 'facebook_page', 'website', 'observations'));
         $volunteer = new Volunteer($request->only('availability', 'rating'));
         $contact->volunteer()->save($volunteer);
-        dd('adăugat');
     }
 
     public function show($id)
@@ -34,7 +39,8 @@ class VolunteersController extends Controller
 
     public function edit($id)
     {
-        //
+        $volunteer = Volunteer::find($id);
+        return view('volunteers.edit', compact($volunteer));
     }
 
     public function update(Request $request, $id)

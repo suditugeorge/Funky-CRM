@@ -10,17 +10,17 @@
         <div class="col-md-3">
           <div class="card-body">
             <a href="{{ route('volunteers.create') }}" class="btn btn-primary btn-lg btn-block">
-              <i class="fa fa-plus left"></i> Voluntar nou
+              <i class="fa fa-plus left"></i> Contact nou
             </a>
             <div class="mt-2">
-              <small>Ticket categories:</small>
+              <small>Categorii contacte:</small>
               <ul class="striped">
-                <li><span class="bullet green"></span> Invoices <span class="badge bg-primary float-right">14</span></li>
-                <li><span class="bullet blue"></span> Advertising <span class="badge bg-primary float-right">1</span></li>
-                <li><span class="bullet red"></span> Functions <span class="badge bg-primary float-right">3</span></li>
-                <li><span class="bullet yellow"></span> Website <span class="badge bg-primary float-right">9</span></li>
-                <li><span class="bullet orange"></span> Clients <span class="badge bg-primary float-right">5</span></li>
-                <li><span class="bullet deep-purple"></span> Technical Questions <span class="badge bg-primary label-pill float-right">4</span></li>
+                <li><span class="bullet green"></span> voluntari <span class="badge bg-primary float-right">{{ $volunteers->count() }}</span></li>
+                <li><span class="bullet blue"></span> media <span class="badge bg-primary float-right">0</span></li>
+                <li><span class="bullet red"></span> donatori <span class="badge bg-primary float-right">0</span></li>
+                <li><span class="bullet yellow"></span> colaboratori <span class="badge bg-primary float-right">0</span></li>
+                <li><span class="bullet orange"></span> funcționari publici <span class="badge bg-primary float-right">0</span></li>
+                <li><span class="bullet deep-purple"></span> politicieni <span class="badge bg-primary label-pill float-right">0</span></li>
               </ul>
             </div>
           </div>
@@ -28,11 +28,11 @@
         <div class="col-md-8 offset-md-1 white z-depth-1 py-1 pt-1">
           <div class="row">
             <div class="col-sm-6 col-md-9 py-1 px-1">
-              <h4 class="h4-responsive">Voluntari ({{ $volunteers->count() }})</h4>
+              <h4 class="h4-responsive">Contacte ({{ $volunteers->count() }})</h4>
             </div>
             <div class="col-sm-6 col-md-3">
               <div class="md-form">
-                <input placeholder="Search..." type="text" id="form5" class="form-control">
+                <input placeholder="Caută un contact..." type="text" id="form5" class="form-control">
               </div>
             </div>
           </div>
@@ -42,12 +42,6 @@
                 <table class="table">
                   <thead>
                     <tr>
-                      <th>
-                        <fieldset class="form-group">
-                          <input type="checkbox" id="checkbox0">
-                          <label for="checkbox0"></label>
-                        </fieldset>
-                      </th>
                       <th>Nume</th>
                       <th>Email</th>
                       <th></th>
@@ -56,29 +50,22 @@
                   <tbody>
                     @foreach ($volunteers as $volunteer)
                       <tr>
-                        <th scope="row">
-                          <fieldset class="form-group">
-                            <input type="checkbox" id="checkbox{{ $volunteer->id }}">
-                            <label for="checkbox{{ $volunteer->id }}"></label>
-                          </fieldset>
-                        </th>
                         <td><div class="avatar-placeholder green darken-3">{{ $volunteer->contact->first_name[0] }}</div> {{ $volunteer->contact->first_name . ' ' . $volunteer->contact->last_name }}</td>
                         <td>{{ $volunteer->contact->email }}</td>
-                        <td><span class="grey-text"><small><i class="fa fa-clock-o"></i> 5 min</small></span></td>
+                        <td>
+                          <a href="{{ route('volunteers.edit', ['volunteer' => $volunteer->id]) }}" data-toggle="tooltip" title="Editează">
+                            <i class="fa fa-pencil"></i>
+                          </a>
+                          <a href="{{ route('volunteers.edit', ['volunteer' => $volunteer->id]) }}" data-toggle="tooltip" title="Șterge">
+                            <i class="fa fa-trash"></i>
+                          </a>
+                        </td>
                       </tr>
                     @endforeach
                   </tbody>
                 </table>
               </div>
               {{ $volunteers->links() }}
-              <div class="dropdown dropup">
-                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Selected</button>
-                <div class="dropdown-menu dropdown-primary">
-                  <a class="dropdown-item" href="#">Remove</a>
-                  <a class="dropdown-item" href="#">Mark as read</a>
-                  <a class="dropdown-item" href="#">Archive</a>
-                </div>
-              </div>
             </div>
           </div>
         </div>
