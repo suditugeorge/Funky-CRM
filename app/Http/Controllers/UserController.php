@@ -11,6 +11,10 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Mail;
 use App\Models\Contact;
+use App\Models\Volunteer;
+use App\Models\Attendance;
+use App\Models\Domain;
+use App\Models\Skill;
 
 class UserController extends Controller
 {
@@ -164,11 +168,10 @@ class UserController extends Controller
     {
 
         $contact_id = $request->contact_id;
-
-        //die(print_r($request->email));
+        $contact = Contact::where('id','=',$contact_id)->first();
 
         if(isset($request->basic) && $request->basic = true){
-            $contact = Contact::where('id','=',$contact_id)->first();
+            
             $contact->email = $request->email;
             $contact->first_name = $request->nume;
             $contact->last_name = $request->prenume;
@@ -182,6 +185,58 @@ class UserController extends Controller
 
             return response()->json(['success'=>true]);
 
+        }
+
+        if(isset($request->new_volunteer) && $request->new_volunteer = true){
+            $volunteer = new Volunteer();
+            $volunteer->rating = $request->rating;
+            $volunteer->availability = $request->availability;
+
+            $contact->volunteer()->save($volunteer);
+
+            if(isset($request->event_name) && $request->event_name != ""){
+                $attendance = new Attendance();
+                $attendance->event = $request->event_name;
+                $attendance->details = $request->event_details;
+
+                $volunteer->attends()->save($attendance);
+
+            }
+
+            if(isset($request->domains_of_interest) && $request->domains_of_interest != ""){
+                foreach ($request->domains_of_interest as $new_domain) {
+                    $domain = new Domain();
+                    switch ($new_domain) {
+                        case 'politica':
+                            $domain->name = 'Politică';
+                            break;
+                        case 'finante':
+                            $domain->name = 'Finanțe';
+                            break;      
+                        case 'transporturi':
+                            $domain->name = 'Transporturi';
+                            break;        
+                        case 'civic-tech':
+                            $domain->name = 'Civic-tech';
+                            break;        
+                        case 'buna-guvernare':
+                            $domain->name = 'Buna-guvernare';
+                            break;                                                                                                                  
+                    }
+                    $volunteer->domains()->save($domain);
+                }
+            }
+
+            if(isset($request->skills) && $request->skills !=""){
+                foreach ($request->skills as $new_skill) {
+                    $skill = new Skill();
+                    $skill->name = $new_skill;
+                    $volunteer->skills()->save($skill);
+
+                }
+            }
+
+            return response()->json(['success'=>true]);
         }
     }
 

@@ -13,4 +13,20 @@ class Volunteer extends Model
     {
         return $this->belongsTo(Contact::class);
     }
+
+    public function attends()
+    {
+        return $this->morphMany('App\Models\Attendance', 'attendences');
+    }
+
+    public function domains()
+    {
+        return $this->morphMany('App\Models\Domain', 'domainable');
+    }
+
+    public function skills()
+    {
+        return $this->morphMany('App\Models\Skill', 'skillable');
+    }
+
 }

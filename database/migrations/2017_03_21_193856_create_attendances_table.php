@@ -16,8 +16,8 @@ class CreateAttendancesTable extends Migration
         Schema::create('attendances', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->integer('attendanceable_id')->unsigned();
-            $table->string('attendanceable_type');
+            $table->integer('attendences_id')->unsigned();
+            $table->string('attendences_type');
             $table->string('event');
             $table->text('details')->nullable();
         });
