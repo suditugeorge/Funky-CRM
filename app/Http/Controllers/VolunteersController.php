@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Contact;
 use App\Models\Volunteer;
 use Illuminate\Http\Request;
+use Response;
 
 class VolunteersController extends Controller
 {
@@ -50,7 +51,7 @@ class VolunteersController extends Controller
         $this->validate($request, [
             'contact.first_name' => 'required',
             'contact.last_name' => 'required',
-            'contact.email' => "required|unique:contacts,email,{$volunteer->contact->id}",
+            'contact.email' => "quired|unique:contacts,email,{$volunteer->contact->id}",
             'contact.observations' => 'required',
         ]);
         $volunteer->update(array_only(request()->all(), ['availability', 'rating']));
@@ -60,6 +61,11 @@ class VolunteersController extends Controller
 
     public function destroy($id)
     {
-        //
+        $volunteer = Volunteer::find($id);
+        $volunteer->delete();
+        $volunteer->contact()->delete();
+        return Response::json([
+            'message' => 'succes',
+        ], 200);
     }
 }

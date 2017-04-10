@@ -56,8 +56,8 @@
                           <a href="{{ route('volunteers.edit', ['volunteer' => $volunteer->id]) }}" data-toggle="tooltip" title="Editează">
                             <i class="fa fa-pencil"></i>
                           </a>
-                          <a href="{{ route('volunteers.edit', ['volunteer' => $volunteer->id]) }}" data-toggle="tooltip" title="Șterge">
-                            <i class="fa fa-trash"></i>
+                          <a href="#" data-toggle="modal" data-target="#confirmDeleteModal" data-id="{{ $volunteer->id }}">
+                            <i class="fa fa-trash" data-toggle="tooltip" title="Șterge"></i>
                           </a>
                         </td>
                       </tr>
@@ -72,6 +72,26 @@
       </div>
     </div>
   </main>
+  <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title w-100" id="confirmDeleteModalLabel">Șterge contact</h4>
+        </div>
+        <div class="modal-body">
+          Ești sigur că vrei să ștergi contactul din baza de date?
+          {{ Form::hidden('volunteer-id') }}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Anulează</button>
+          <button type="button" id="delete-action" class="btn btn-danger">Șterge</button>
+        </div>
+      </div>
+    </div>
+  </div>
 @endsection
 
 @push('scripts')
@@ -93,6 +113,19 @@
     // Tooltips Initialization
     $(function() {
         $('[data-toggle="tooltip"]').tooltip();
+    });
+  </script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script>
+    $('#confirmDeleteModal').on('shown.bs.modal', function (e) {
+      $('input[name="volunteer-id"]').val($(e.relatedTarget).data('id'));
+    });
+    $('#delete-action').on('click', function () {
+      const volunteerId = $('input[name="volunteer-id"]').val();
+      axios.delete('/volunteers/' + volunteerId)
+        .then(function(response) {
+          window.location.href = "/volunteers";
+        });
     });
   </script>
 @endpush
