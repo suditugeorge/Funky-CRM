@@ -242,14 +242,13 @@ class UserController extends Controller
 
                 }
             }
+        }
 
         if(isset($request->modify_volunteer) && $request->modify_volunteer = true){
             
             
-            
-
-            return response()->json(['success'=>true]);
         }
+        return response()->json(['success'=>true]);
     }
 
 }
