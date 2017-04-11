@@ -110,12 +110,14 @@
     detalii_eveniment = $('#volunteer-event-details-' + id);
     rating = $('#volunteer-rating-' + id);
     availability = $('#volunteer-event-availability-' + id);
+    data.updates.id = id;
     data.updates.domains_of_interest = domenii_de_interes.val();
     data.updates.skills = skills.val();
     data.updates.event_name = nume_eveniment.val();
     data.updates.event_details = detalii_eveniment.val();
     data.updates.rating = rating.val();
     data.updates.availability = availability.val();
+    console.log(data);
     $.post('/edit-citizen', data, function(json) {
       if (json.success) {
         location.reload();

@@ -177,6 +177,7 @@ class UserController extends Controller
         $contact_id = $request->contact_id;
         $contact = Contact::where('id','=',$contact_id)->first();
 
+        //Daca sunt editate doar datele de contact
         if(isset($request->basic) && $request->basic = true){
             
             $contact->email = $request->email;
@@ -194,6 +195,7 @@ class UserController extends Controller
 
         }
 
+        //Daca este inserat un nou voluntariat
         if(isset($request->new_volunteer) && $request->new_volunteer = true){
             $volunteer = new Volunteer();
             $volunteer->rating = $request->rating;
@@ -213,23 +215,7 @@ class UserController extends Controller
             if(isset($request->domains_of_interest) && $request->domains_of_interest != ""){
                 foreach ($request->domains_of_interest as $new_domain) {
                     $domain = new Domain();
-                    switch ($new_domain) {
-                        case 'politica':
-                            $domain->name = 'Politică';
-                            break;
-                        case 'finante':
-                            $domain->name = 'Finanțe';
-                            break;      
-                        case 'transporturi':
-                            $domain->name = 'Transporturi';
-                            break;        
-                        case 'civic-tech':
-                            $domain->name = 'Civic-tech';
-                            break;        
-                        case 'buna-guvernare':
-                            $domain->name = 'Buna-guvernare';
-                            break;                                                                                                                  
-                    }
+                    $domain->name = $new_domain;
                     $volunteer->domains()->save($domain);
                 }
             }
@@ -244,9 +230,94 @@ class UserController extends Controller
             }
         }
 
+        //Daca se modifica un voluntariat
         if(isset($request->modify_volunteer) && $request->modify_volunteer = true){
+            $volunteer = Volunteer::where('id','=',$request->updates['id'])->first();
+            $volunteer->availability = $request->updates['availability'];
+            $volunteer->rating = $request->updates['rating'];
+            $volunteer->update();
+
+            //Adaugăm skill-uri noi
+            if(isset($request->updates['skills'])){
+                foreach ($request->updates['skills'] as $new_skill) {
+                    $found = false;
+                    foreach ($volunteer->skills as $old_skill) {
+                        if($old_skill['name'] == $new_skill){
+                            $found = true;
+                        }
+                    }
+                    if($found == false){
+                        $skill = new Skill();
+                        $skill->name = $new_skill;
+                        $volunteer->skills()->save($skill);                    
+                    }
+                }                
+            }
+
+
+            //Stergem skill-uri 
+            foreach ($volunteer->skills as $old_skill) {
+                $found = false;
+                if(isset($request->updates['skills'])){
+                    foreach ($request->updates['skills'] as $new_skill){
+                        if($old_skill['name'] == $new_skill){
+                            $found = true;
+                        }                    
+                    }
+                }
+                if($found == false){
+                    $old_skill->delete();                 
+                }                
+            }
+
+            //Adaugam domenii noi
+            if(isset($request->updates['domains_of_interest'])){
+                foreach ($request->updates['domains_of_interest'] as $new_domain) {
+                    $found = false;
+                    foreach ($volunteer->domains as $old_domain) {
+                        if($old_domain['name'] == $new_domain){
+                            $found = true;
+                        }
+                    }
+                    if($found == false){
+                        $domain = new Domain();
+                        $domain->name = $new_domain;
+                        $volunteer->domains()->save($domain);
+                    }
+                }
+            }
+
+            //Stergem domenii
+            foreach ($volunteer->domains as $old_domain){
+                $found = false;
+                if(isset($request->updates['domains_of_interest'])){
+                    foreach ($request->updates['domains_of_interest'] as $new_domain){
+                        if($old_domain['name'] == $new_domain){
+                            $found = true;
+                        }                    
+                    }
+                }
+                if($found == false){
+                    $old_domain->delete();
+                }
+            }
+
+            //Adaugam/stergem eveniment
+            if(isset($request->updates['event_name'])){
+                if(!isset($volunteer->attends[0])){
+                    $attendance = new Attendance();
+                    $attendance->event = $request->updates['event_name'];
+                    $attendance->details = @$request->updates['event_details'];
+                }else{
+                    $volunteer->attends[0]->event = $request->updates['event_name'];
+                    $volunteer->attends[0]->details = @$request->updates['event_details'];
+                    $volunteer->attends[0]->update();
+                }
+            }elseif(isset($volunteer->attends[0])){
+                $volunteer->attends[0]->delete();
+            }
             
-            
+
         }
         return response()->json(['success'=>true]);
     }

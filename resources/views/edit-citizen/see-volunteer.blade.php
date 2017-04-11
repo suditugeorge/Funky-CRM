@@ -18,7 +18,7 @@
                     <option value="" disabled selected>Alege domenii de interes</option>
                     @foreach($volunteer->domains as $domain)
                       @if($domain->name == 'Politică')
-                        <option value="Politică" selected>Politică</option>
+                        <option value="Politica" selected>Politică</option>
                         @php
                           if(($key = array_search('Politică', $domain_values)) !== false) {
                               unset($domain_values[$key]);
@@ -26,7 +26,7 @@
                         @endphp
                       @endif
                       @if($domain->name == 'Finanțe')
-                        <option value="Finanțe" selected>Finanțe</option>
+                        <option value="Finante" selected>Finanțe</option>
                         @php
                           if(($key = array_search('Finanțe', $domain_values)) !== false) {
                               unset($domain_values[$key]);
@@ -77,13 +77,13 @@
             <div class="row">
               <div class="col-md-6">
                   <div class="md-form">
-                      <input type="text" id="volunteer-event-name-{{$volunteer->id}}" value="{{$volunteer->attends[0]->event}}"></input>
+                      <input type="text" id="volunteer-event-name-{{$volunteer->id}}" value="{{@$volunteer->attends[0]->event}}"></input>
                       <label for="volunteer-event-name-{{$volunteer->id}}">Nume eveniment</label>
                   </div>
               </div> 
               <div class="col-md-6">
                   <div class="md-form">
-                      <textarea type="text" id="volunteer-event-details-{{$volunteer->id}}" class="md-textarea" style="resize:vertical;">{{$volunteer->attends[0]->details}}</textarea>
+                      <textarea type="text" id="volunteer-event-details-{{$volunteer->id}}" class="md-textarea" style="resize:vertical;">{{@$volunteer->attends[0]->details}}</textarea>
                       <label for="volunteer-event-details-{{$volunteer->id}}">Detalii eveniment</label>
                   </div>
               </div> 

@@ -8,6 +8,7 @@ $('#add-admins').click (e) ->
 	verified_emails = ""
 	emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
 	domainCheck = /@funkycitizens.org\s*$/
+	
 	$.each emails, (k) ->
 		if !emailRegex.test(emails[k]) || !domainCheck.test(emails[k])
 			toastr.error("Adresa de email "+emails[k]+ " nu este validă!")

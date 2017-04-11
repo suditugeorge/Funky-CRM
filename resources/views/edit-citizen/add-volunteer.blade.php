@@ -13,11 +13,11 @@
                 <div class="col-md-6">
                 <select class="mdb-select" id="new-volunteer-domains" multiple>
                     <option value="" disabled selected>Alege domenii de interes</option>
-                    <option value="politica">Politică</option>
-                    <option value="finante">Finanțe</option>
-                    <option value="transporturi">Transporturi</option>
-                    <option value="civic-tech">Civic-tech</option>
-                    <option value="buna-guvernare">Buna-guvernare</option>
+                    <option value="Politica">Politică</option>
+                    <option value="Finante">Finanțe</option>
+                    <option value="Transporturi">Transporturi</option>
+                    <option value="Civic-tech">Civic-tech</option>
+                    <option value="Buna-guvernare">Buna-guvernare</option>
                 </select>
                 <label>Domenii de interes</label>
               </div>
