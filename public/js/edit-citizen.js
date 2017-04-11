@@ -97,11 +97,41 @@
     });
   });
 
+  $('.edit-volunteer').click(function(e) {
+    var availability, detalii_eveniment, domenii_de_interes, id, nume_eveniment, rating, skills;
+    e.preventDefault();
+    getInfo();
+    data.modify_volunteer = true;
+    data.updates = {};
+    id = $(this).data('id');
+    domenii_de_interes = $('#volunteer-domains-' + id);
+    skills = $('#volunteer-skills-' + id);
+    nume_eveniment = $('#volunteer-event-name-' + id);
+    detalii_eveniment = $('#volunteer-event-details-' + id);
+    rating = $('#volunteer-rating-' + id);
+    availability = $('#volunteer-event-availability-' + id);
+    data.updates.domains_of_interest = domenii_de_interes.val();
+    data.updates.skills = skills.val();
+    data.updates.event_name = nume_eveniment.val();
+    data.updates.event_details = detalii_eveniment.val();
+    data.updates.rating = rating.val();
+    data.updates.availability = availability.val();
+    $.post('/edit-citizen', data, function(json) {
+      if (json.success) {
+        location.reload();
+      }
+    });
+  });
+
   $('#new-volunteer-skills').select2({
     tags: true
   });
 
   $('#volunteer-rating').barrating({
+    theme: 'fontawesome-stars'
+  });
+
+  $('.volunteer-rating').barrating({
     theme: 'fontawesome-stars'
   });
 

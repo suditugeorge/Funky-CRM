@@ -1,8 +1,8 @@
-	<div class="card card-cascade narrower mb-r" class="volunteer" data-id="{{$volunteer->id}}">
+	<div class="card card-cascade narrower mb-r volunteer" data-id="{{$volunteer->id}}">
   <div class="admin-panel info-admin-panel">
       <!--Card image-->
       <div class="view primary-color">
-          <h5>Adaugă voluntariat</h5>
+          <h5>Modifică voluntariat</h5>
       </div>
       <!--/Card image-->
       <!--Card content-->
@@ -91,12 +91,32 @@
 
             <div class="row">
               <div class="col-md-6">
-                <select id="volunteer-rating-{{$volunteer->id}}">
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
+                <select id="volunteer-rating-{{$volunteer->id}}" class="volunteer-rating">
+                  @if($volunteer->rating == 1)
+                    <option value="1" selected>1</option>
+                  @else
+                    <option value="1">1</option>
+                  @endif
+                  @if($volunteer->rating == 2)
+                    <option value="2" selected>2</option>
+                  @else
+                    <option value="2">2</option>
+                  @endif
+                  @if($volunteer->rating == 3)
+                    <option value="3" selected>3</option>
+                  @else
+                    <option value="3">3</option>
+                  @endif
+                  @if($volunteer->rating == 4)
+                    <option value="4" selected>4</option>
+                  @else
+                    <option value="4">4</option>
+                  @endif
+                  @if($volunteer->rating == 5)
+                    <option value="5" selected>5</option>
+                  @else
+                    <option value="5">5</option>
+                  @endif                                                      
                 </select>
                 <label>Rating interacțiune</label>
               </div>
@@ -111,7 +131,7 @@
 
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <i class="fa fa-spinner fa-spin fa-3x fa-fw hidden"></i><button class="btn btn-primary" class="edit-volunteer" data-id="{{$volunteer->id}}">Adaugă voluntariat</button>
+                    <i class="fa fa-spinner fa-spin fa-3x fa-fw hidden"></i><button class="btn btn-primary edit-volunteer" data-id="{{$volunteer->id}}">Modifică voluntariat</button>
                 </div>
             </div>
         </form>
