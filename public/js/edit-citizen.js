@@ -56,9 +56,7 @@
       return;
     }
     data.basic = true;
-    console.log(data);
     $.post('/edit-citizen', data, function(json) {
-      console.log(json);
       if (json.success) {
         location.reload();
       }
@@ -76,6 +74,8 @@
   $('#add-volunteer').click(function(e) {
     var availability, detalii_eveniment, domenii_de_interes, nume_eveniment, rating, skills;
     e.preventDefault();
+    $('#add-volunteer-spinner').removeClass('hidden');
+    $('#add-volunteer').addClass('hidden');
     domenii_de_interes = $('#new-volunteer-domains');
     skills = $('#new-volunteer-skills');
     nume_eveniment = $('#volunteer-event-name');
@@ -93,6 +93,10 @@
     $.post('/edit-citizen', data, function(json) {
       if (json.success) {
         location.reload();
+      } else {
+        toastr.error(json.message);
+        $('#add-volunteer-spinner').addClass('hidden');
+        $('#add-volunteer').removeClass('hidden');
       }
     });
   });
@@ -100,6 +104,9 @@
   $('.edit-volunteer').click(function(e) {
     var availability, detalii_eveniment, domenii_de_interes, id, nume_eveniment, rating, skills;
     e.preventDefault();
+    $('#edit-volunteer-spinner').removeClass('hidden');
+    $('.edit-volunteer').addClass('hidden');
+    $('.delete-volunteer').addClass('hidden');
     getInfo();
     data.modify_volunteer = true;
     data.updates = {};
@@ -117,10 +124,36 @@
     data.updates.event_details = detalii_eveniment.val();
     data.updates.rating = rating.val();
     data.updates.availability = availability.val();
-    console.log(data);
     $.post('/edit-citizen', data, function(json) {
       if (json.success) {
         location.reload();
+      } else {
+        toastr.error(json.message);
+        $('#edit-volunteer-spinner').addClass('hidden');
+        $('.edit-volunteer').removeClass('hidden');
+        $('.delete-volunteer').removeClass('hidden');
+      }
+    });
+  });
+
+  $('.delete-volunteer').click(function(e) {
+    var id;
+    e.preventDefault();
+    $('#edit-volunteer-spinner').removeClass('hidden');
+    $('.edit-volunteer').addClass('hidden');
+    $('.delete-volunteer').addClass('hidden');
+    getInfo();
+    id = $(this).data('id');
+    data.id = id;
+    data.delete_volunteer = true;
+    $.post('/edit-citizen', data, function(json) {
+      if (json.success) {
+        location.reload();
+      } else {
+        toastr.error(json.message);
+        $('#edit-volunteer-spinner').addClass('hidden');
+        $('.edit-volunteer').removeClass('hidden');
+        $('.delete-volunteer').removeClass('hidden');
       }
     });
   });

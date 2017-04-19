@@ -65,7 +65,7 @@
 
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <i class="fa fa-spinner fa-spin fa-3x fa-fw hidden"></i><button class="btn btn-primary" id="add-volunteer">Adaugă voluntariat</button>
+                    <i class="fa fa-spinner fa-spin fa-3x fa-fw hidden" id="add-volunteer-spinner"></i><button class="btn btn-primary" id="add-volunteer">Adaugă voluntariat</button>
                 </div>
             </div>
         </form>

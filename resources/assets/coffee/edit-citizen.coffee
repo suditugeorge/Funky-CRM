@@ -51,10 +51,8 @@ $('#edit-citizen').click (e) ->
 		return
 
 	data.basic = true
-	console.log data
 
 	$.post '/edit-citizen', data , (json) ->
-		console.log json
 		if json.success
 			location.reload()
 		return
@@ -68,6 +66,8 @@ $('#adauga-categorie').on 'change', ->
 
 $('#add-volunteer').click (e) ->
 	e.preventDefault();
+	$('#add-volunteer-spinner').removeClass 'hidden'
+	$('#add-volunteer').addClass 'hidden'
 	domenii_de_interes = $('#new-volunteer-domains')
 	skills = $('#new-volunteer-skills')
 	nume_eveniment = $('#volunteer-event-name')
@@ -87,11 +87,19 @@ $('#add-volunteer').click (e) ->
 	$.post '/edit-citizen', data , (json) ->
 		if json.success
 			location.reload()
+		else
+			toastr.error(json.message)
+			$('#add-volunteer-spinner').addClass 'hidden'
+			$('#add-volunteer').removeClass 'hidden'
 		return
 
 	return
+
 $('.edit-volunteer').click (e) ->
 	e.preventDefault();
+	$('#edit-volunteer-spinner').removeClass 'hidden'
+	$('.edit-volunteer').addClass 'hidden'
+	$('.delete-volunteer').addClass 'hidden'
 	getInfo()
 	data.modify_volunteer = true
 	data.updates = {}
@@ -111,14 +119,39 @@ $('.edit-volunteer').click (e) ->
 	data.updates.rating = rating.val()
 	data.updates.availability = availability.val()
 
-	console.log data	
+	$.post '/edit-citizen', data , (json) ->
+		if json.success
+			location.reload()
+		else
+			toastr.error(json.message)
+			$('#edit-volunteer-spinner').addClass 'hidden'
+			$('.edit-volunteer').removeClass 'hidden'
+			$('.delete-volunteer').removeClass 'hidden'
+		return
+
+	return
+
+$('.delete-volunteer').click (e) ->
+	e.preventDefault();
+	$('#edit-volunteer-spinner').removeClass 'hidden'
+	$('.edit-volunteer').addClass 'hidden'
+	$('.delete-volunteer').addClass 'hidden'
+	getInfo()
+
+	id = $(this).data('id')
+	data.id = id
+	data.delete_volunteer = true
 
 	$.post '/edit-citizen', data , (json) ->
 		if json.success
 			location.reload()
+		else
+			toastr.error(json.message)
+			$('#edit-volunteer-spinner').addClass 'hidden'
+			$('.edit-volunteer').removeClass 'hidden'
+			$('.delete-volunteer').removeClass 'hidden'
 		return
-
-	return
+	return	
 
 $('#new-volunteer-skills').select2({
   tags: true

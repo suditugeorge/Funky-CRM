@@ -130,8 +130,12 @@
             </div>
 
             <div class="row">
-                <div class="col-md-12 text-center">
-                    <i class="fa fa-spinner fa-spin fa-3x fa-fw hidden"></i><button class="btn btn-primary edit-volunteer" data-id="{{$volunteer->id}}">Modifică voluntariat</button>
+                <div class="col-md-12 text-center hidden" id="edit-volunteer-spinner"><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i></div>
+                <div class="col-md-10 text-right">
+                    <button class="btn btn-primary edit-volunteer" data-id="{{$volunteer->id}}">Modifică voluntariat</button>
+                </div>
+                <div class="col-md-2 text-right">
+                    <button type="button" class="btn btn-danger delete-volunteer" data-id="{{$volunteer->id}}">Șterge</button>
                 </div>
             </div>
         </form>
