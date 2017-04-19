@@ -20,6 +20,11 @@ Route::post('/reset-password', [
     'uses' => 'UserController@resetPassword',
 ]);
 
+//Creeaza utilizatori pentru teste
+Route::get('/create-users-for-test', [
+    'uses' => 'MainController@createTestUsers',
+]);
+
 //For all this routes all users must be loged in
 Route::group(['middleware' => 'isLogedIn'], function () {
 

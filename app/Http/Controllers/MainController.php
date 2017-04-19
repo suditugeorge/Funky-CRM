@@ -80,4 +80,28 @@ class MainController extends Controller
         return redirect()->route('login');
     }
 
+    public function createTestUsers()
+    {
+        $user = new User();
+        $user->name = "TestUser 1";
+        $user->email = "test_user1@funkycitizens.org";
+        $user->password = Hash::make("admin");
+        $user->is_admin = false;
+        $user->save();
+
+        $user = new User();
+        $user->name = "TestUser 2";
+        $user->email = "test_user2@funkycitizens.org";
+        $user->password = Hash::make("admin");
+        $user->is_admin = false;
+        $user->save();
+
+        $user = new User();
+        $user->name = "TestUser 3";
+        $user->email = "test_user3@funkycitizens.org";
+        $user->password = Hash::make("admin");
+        $user->is_admin = false;
+        $user->save();
+    }
+
 }

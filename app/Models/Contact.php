@@ -12,4 +12,9 @@ class Contact extends Model
     {
         return $this->hasMany(Volunteer::class);
     }
+
+    public function media()
+    {
+    	return $this->hasMany(Media::class);
+    }
 }

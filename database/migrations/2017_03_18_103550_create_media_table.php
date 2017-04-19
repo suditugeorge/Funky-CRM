@@ -20,6 +20,7 @@ class CreateMediaTable extends Migration
             $table->foreign('contact_id')->references('id')->on('contacts');
             $table->tinyInteger('office_check_in');
             $table->string('affiliation');
+            $table->text('observations');
             $table->integer('rating');
         });
     }

@@ -62,6 +62,10 @@ $('#adauga-categorie').on 'change', ->
 	categorie = $('#adauga-categorie').val()
 	if categorie == 'voluntar'
 		$('#new-volunteer').removeClass 'hidden'
+		$('#new-media').addClass 'hidden'
+	else if categorie == 'media'
+		$('#new-media').removeClass 'hidden'
+		$('#new-volunteer').addClass 'hidden'
 	return
 
 $('#add-volunteer').click (e) ->
@@ -157,6 +161,9 @@ $('#new-volunteer-skills').select2({
   tags: true
 })
 $('#volunteer-rating').barrating({
+theme: 'fontawesome-stars'
+});
+$('#new-media-rating').barrating({
 theme: 'fontawesome-stars'
 });
 $('.volunteer-rating').barrating({

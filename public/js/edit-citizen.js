@@ -68,6 +68,10 @@
     categorie = $('#adauga-categorie').val();
     if (categorie === 'voluntar') {
       $('#new-volunteer').removeClass('hidden');
+      $('#new-media').addClass('hidden');
+    } else if (categorie === 'media') {
+      $('#new-media').removeClass('hidden');
+      $('#new-volunteer').addClass('hidden');
     }
   });
 
@@ -163,6 +167,10 @@
   });
 
   $('#volunteer-rating').barrating({
+    theme: 'fontawesome-stars'
+  });
+
+  $('#new-media-rating').barrating({
     theme: 'fontawesome-stars'
   });
 
