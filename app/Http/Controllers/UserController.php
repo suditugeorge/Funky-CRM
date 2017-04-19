@@ -16,6 +16,7 @@ use App\Models\Attendance;
 use App\Models\Domain;
 use App\Models\Skill;
 use App\Http\Controllers\VolunteersController;
+use App\Http\Controllers\MediaController;
 
 class UserController extends Controller
 {
@@ -156,13 +157,24 @@ class UserController extends Controller
         return response()->json(['success'=>true, 'url' => url('/edit-citizen/'.$contact->id)]);
     }
 
+    public static function getUsers()
+    {
+        $users = User::where('is_admin','=',0)->get();
+        $users_def = [];
+        foreach ($users as $user) {
+            $users_def[$user->id] = ['id'=>$user->id,'name'=>$user->name];
+        }
+        return $users_def;
+    }
+
 
     public function editCitizenView(Request $request,$id)
     {
 
         $contact = Contact::with('volunteer','media')->where('id','=',$id)->first();
+
         $users = User::where('is_admin','=',0)->get();
-        //die(print_r($users));
+        //die(print_r($contact->media[2]->links));
 
         return view('edit-citizen/edit-citizen',['user' => Auth::user(),'contact' => $contact,'users' => $users]);
 
@@ -204,6 +216,21 @@ class UserController extends Controller
         //Daca se sterge un voluntar
         if(isset($request->delete_volunteer) && $request->delete_volunteer == true){
             $response = VolunteersController::deleteVolunteer($request,$contact);
+        }
+
+        //Daca este inserat un nou media
+        if(isset($request->new_media) && $request->new_media == true){
+            $response = MediaController::addMedia($request,$contact);
+        }
+
+        //Daca se modifica un media
+        if(isset($request->modify_media) && $request->modify_media == true){
+            $response = MediaController::modifyMedia($request,$contact);
+        }
+
+        //Daca se sterge un media
+        if(isset($request->delete_media) && $request->delete_media == true){
+            $response = MediaController::deleteMedia($request,$contact);
         }
 
         return response()->json($response);

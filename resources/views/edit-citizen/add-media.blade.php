@@ -59,13 +59,7 @@
               </div>
             </div>
 
-            <div class="row">
-              <div class="col-md-6">
-                  <div class="md-form">
-                      <textarea type="text" id="new-media-observations" class="md-textarea" style="resize:vertical;"></textarea>
-                      <label for="new-media-observations">Observații Funky</label>
-                  </div>
-              </div>        
+            <div class="row">      
               <div class="col-md-6">
                 <select id="new-media-rating">
                   <option value="1">1</option>

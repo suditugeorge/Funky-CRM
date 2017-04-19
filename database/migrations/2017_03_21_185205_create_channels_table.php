@@ -19,7 +19,6 @@ class CreateChannelsTable extends Migration
             $table->integer('media_id')->unsigned();
             $table->foreign('media_id')->references('id')->on('media');
             $table->string('name');
-            $table->string('type');
         });
     }
 

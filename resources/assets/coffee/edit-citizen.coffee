@@ -72,6 +72,7 @@ $('#add-volunteer').click (e) ->
 	e.preventDefault();
 	$('#add-volunteer-spinner').removeClass 'hidden'
 	$('#add-volunteer').addClass 'hidden'
+
 	domenii_de_interes = $('#new-volunteer-domains')
 	skills = $('#new-volunteer-skills')
 	nume_eveniment = $('#volunteer-event-name')
@@ -99,15 +100,48 @@ $('#add-volunteer').click (e) ->
 
 	return
 
+$('#add-media').click (e) ->
+	e.preventDefault();
+	#$('#add-media-spinner').removeClass 'hidden'
+	#$('#add-media').addClass 'hidden'
+	domenii_de_interes = $('#new-media-domains')
+	canale = $('#new-media-channel')
+	liasons = $('#new-media-liason')
+	afiliere = $('#affliation')
+	check_in = $('#new-media-check-in')
+	rating = $('#new-media-rating')
+	link = $('#new-media-link')
+	getInfo()
+
+	data.new_media = true
+	data.domains_of_interest = domenii_de_interes.val()
+	data.channels = canale.val()
+	data.liasons = liasons.val()
+	data.affliation = afiliere.val()
+	data.check_in = check_in.is(':checked')
+	data.rating = rating.val()
+	data.link = link.val()
+
+	$.post '/edit-citizen', data , (json) ->
+		if json.success
+			location.reload()
+		else
+			toastr.error(json.message)
+			$('#add-volunteer-spinner').addClass 'hidden'
+			$('#add-volunteer').removeClass 'hidden'
+		return
+	return
+
 $('.edit-volunteer').click (e) ->
 	e.preventDefault();
-	$('#edit-volunteer-spinner').removeClass 'hidden'
+	id = $(this).data('id')
+	$('#edit-volunteer-spinner-'+id).removeClass 'hidden'
 	$('.edit-volunteer').addClass 'hidden'
 	$('.delete-volunteer').addClass 'hidden'
 	getInfo()
+	
 	data.modify_volunteer = true
 	data.updates = {}
-	id = $(this).data('id')
 	domenii_de_interes = $('#volunteer-domains-'+id)
 	skills = $('#volunteer-skills-'+id)
 	nume_eveniment = $('#volunteer-event-name-'+id)
@@ -128,21 +162,69 @@ $('.edit-volunteer').click (e) ->
 			location.reload()
 		else
 			toastr.error(json.message)
-			$('#edit-volunteer-spinner').addClass 'hidden'
+			$('#edit-volunteer-spinner-'+id).addClass 'hidden'
 			$('.edit-volunteer').removeClass 'hidden'
 			$('.delete-volunteer').removeClass 'hidden'
 		return
 
 	return
 
+$('.edit-media').click (e) ->
+	e.preventDefault();
+	id = $(this).data('id')
+
+	$('#edit-media-spinner-'+id).removeClass 'hidden'
+	$('#edit-media-'+id).addClass 'hidden'
+	$('#delete-media-'+id).addClass 'hidden'	
+
+	getInfo()
+	data.modify_media = true
+	data.updates = {}
+	domenii_de_interes = $('#media-domains-'+id)
+	channels = $('#media-channels-'+id)
+	liasons = $('#media-liason-'+id)
+	affiliation = $('#media-affliation-'+id)
+	check_in = $('#media-check-in-'+id)
+	rating = $('#media-rating-'+id)
+	new_link = $('#media-link-'+id+'-new')
+
+	data.updates.id = id
+	data.updates.domains_of_interest = domenii_de_interes.val()
+	data.updates.channels = channels.val()
+	data.updates.liasons = liasons.val()
+	data.updates.affiliation = affiliation.val()
+	data.updates.check_in = check_in.is(':checked')
+	data.updates.rating = rating.val()
+	data.updates.new_link_value = new_link.val()
+	data.updates.links = []
+
+	html_links = $('.media-link-'+id)
+	links = []
+	$.each html_links, (k) ->
+		pos = $(html_links[k]).data('link_id')
+		to_add = {id:pos, link:$(html_links[k]).val()}
+		data.updates.links.push(to_add)
+
+	$.post '/edit-citizen', data , (json) ->
+		if json.success
+			location.reload()
+		else
+			toastr.error(json.message)
+			$('#edit-media-spinner-'+id).addClass 'hidden'
+			$('#edit-media-'+id).removeClass 'hidden'
+			$('#delete-media-'+id).removeClass 'hidden'
+		return
+
+	return
+
 $('.delete-volunteer').click (e) ->
 	e.preventDefault();
-	$('#edit-volunteer-spinner').removeClass 'hidden'
-	$('.edit-volunteer').addClass 'hidden'
-	$('.delete-volunteer').addClass 'hidden'
+	id = $(this).data('id')
+	$('#edit-volunteer-spinner-'+id).removeClass 'hidden'
+	$('#edit-volunteer-'+id).addClass 'hidden'
+	$('#delete-volunteer-'+id).addClass 'hidden'
 	getInfo()
 
-	id = $(this).data('id')
 	data.id = id
 	data.delete_volunteer = true
 
@@ -151,11 +233,33 @@ $('.delete-volunteer').click (e) ->
 			location.reload()
 		else
 			toastr.error(json.message)
-			$('#edit-volunteer-spinner').addClass 'hidden'
-			$('.edit-volunteer').removeClass 'hidden'
-			$('.delete-volunteer').removeClass 'hidden'
+			$('#edit-volunteer-spinner-'+id).addClass 'hidden'
+			$('#edit-volunteer-'+id).removeClass 'hidden'
+			$('#delete-volunteer-'+id).removeClass 'hidden'
 		return
 	return	
+
+$('.delete-media').click (e) ->
+	e.preventDefault();
+	id = $(this).data('id')	
+	$('#edit-media-spinner-'+id).removeClass 'hidden'
+	$('#edit-media-'+id).addClass 'hidden'
+	$('#delete-media-'+id).addClass 'hidden'
+	getInfo()
+
+	data.id = id
+	data.delete_media = true
+
+	$.post '/edit-citizen', data , (json) ->
+		if json.success
+			location.reload()
+		else
+			toastr.error(json.message)
+			$('#edit-media-spinner-'+id).addClass 'hidden'
+			$('#edit-media-'+id).removeClass 'hidden'
+			$('#delete-media-'+id).removeClass 'hidden'
+		return	
+	return
 
 $('#new-volunteer-skills').select2({
   tags: true
@@ -167,6 +271,9 @@ $('#new-media-rating').barrating({
 theme: 'fontawesome-stars'
 });
 $('.volunteer-rating').barrating({
+theme: 'fontawesome-stars'
+});
+$('.media-rating').barrating({
 theme: 'fontawesome-stars'
 });
 $('.volunteer-skills').select2({
