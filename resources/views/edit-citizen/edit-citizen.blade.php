@@ -93,7 +93,7 @@ Adaugă cetățean
 
 	            <div class="col-md-6">
 								<select class="mdb-select colorful-select dropdown-default" id="adauga-categorie">
-									<option value="" disabled selected>Alege o categorie</option>
+									<option value="pick" disabled selected>Alege o categorie</option>
 									<option value="voluntar">Voluntar</option>
 									<option value="media">Media</option>
 									<option value="donator">Donator</option>
@@ -119,6 +119,10 @@ Adaugă cetățean
 
 @include('edit-citizen.add-volunteer')
 @include('edit-citizen.add-media')
+@include('edit-citizen.add-donor')
+@foreach($contact->donor as $don)
+  @include('edit-citizen.see-donor',['donor' => $don])
+@endforeach
 @foreach($contact->volunteer as $vol)
 	@include('edit-citizen.see-volunteer',['volunteer' => $vol])
 @endforeach

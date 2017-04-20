@@ -17,4 +17,9 @@ class Contact extends Model
     {
     	return $this->hasMany(Media::class);
     }
+
+    public function donor()
+    {
+    	return $this->hasMany(Donor::class);
+    }    
 }

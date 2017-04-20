@@ -66,12 +66,22 @@
   $('#adauga-categorie').on('change', function() {
     var categorie;
     categorie = $('#adauga-categorie').val();
-    if (categorie === 'voluntar') {
+    if (categorie === 'pick') {
+      $('#new-media').addClass('hidden');
+      $('#new-donor').addClass('hidden');
+      $('#new-volunteer').addClass('hidden');
+    } else if (categorie === 'voluntar') {
       $('#new-volunteer').removeClass('hidden');
       $('#new-media').addClass('hidden');
+      $('#new-donor').addClass('hidden');
     } else if (categorie === 'media') {
       $('#new-media').removeClass('hidden');
       $('#new-volunteer').addClass('hidden');
+      $('#new-donor').addClass('hidden');
+    } else if (categorie === 'donator') {
+      $('#new-donor').removeClass('hidden');
+      $('#new-volunteer').addClass('hidden');
+      $('#new-media').addClass('hidden');
     }
   });
 
@@ -101,6 +111,24 @@
         toastr.error(json.message);
         $('#add-volunteer-spinner').addClass('hidden');
         $('#add-volunteer').removeClass('hidden');
+      }
+    });
+  });
+
+  $('#add-donor').click(function(e) {
+    var legal_form, recurring_donations;
+    e.preventDefault();
+    recurring_donations = $('#new-donor-recurring_donations');
+    legal_form = $('#new-donor-legal_form');
+    getInfo();
+    data.new_donor = true;
+    data.legal_form = legal_form.val();
+    data.recurring_donations = recurring_donations.val();
+    $.post('/edit-citizen', data, function(json) {
+      if (json.success) {
+        location.reload();
+      } else {
+        toastr.error(json.message);
       }
     });
   });
@@ -168,6 +196,20 @@
         $('.delete-volunteer').removeClass('hidden');
       }
     });
+  });
+
+  $('.edit-donor').click(function(e) {
+    var id, legal_form, recurring_donations;
+    e.preventDefault();
+    id = $(this).data('id');
+    getInfo();
+    data.modify_donor = true;
+    data.updates = {};
+    recurring_donations = $('#edit-donor-recurring_donations-' + id);
+    legal_form = $('#edit-donor-legal_form-' + id);
+    data.updates.recurring_donations = recurring_donations.val();
+    data.updates.legal_form = legal_form.val();
+    console.log(data);
   });
 
   $('.edit-media').click(function(e) {

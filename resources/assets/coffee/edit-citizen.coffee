@@ -60,12 +60,22 @@ $('#edit-citizen').click (e) ->
 	return
 $('#adauga-categorie').on 'change', ->
 	categorie = $('#adauga-categorie').val()
-	if categorie == 'voluntar'
+	if categorie == 'pick'
+		$('#new-media').addClass 'hidden'
+		$('#new-donor').addClass 'hidden'
+		$('#new-volunteer').addClass 'hidden'
+	else if categorie == 'voluntar'
 		$('#new-volunteer').removeClass 'hidden'
 		$('#new-media').addClass 'hidden'
+		$('#new-donor').addClass 'hidden'
 	else if categorie == 'media'
 		$('#new-media').removeClass 'hidden'
 		$('#new-volunteer').addClass 'hidden'
+		$('#new-donor').addClass 'hidden'
+	else if categorie == 'donator'
+		$('#new-donor').removeClass 'hidden'
+		$('#new-volunteer').addClass 'hidden'
+		$('#new-media').addClass 'hidden'
 	return
 
 $('#add-volunteer').click (e) ->
@@ -98,6 +108,25 @@ $('#add-volunteer').click (e) ->
 			$('#add-volunteer').removeClass 'hidden'
 		return
 
+	return
+
+$('#add-donor').click (e) ->
+	e.preventDefault();
+
+	recurring_donations = $('#new-donor-recurring_donations')
+	legal_form = $('#new-donor-legal_form')
+	getInfo()
+
+	data.new_donor = true
+	data.legal_form = legal_form.val()
+	data.recurring_donations = recurring_donations.val()
+
+	$.post '/edit-citizen', data , (json) ->
+		if json.success
+			location.reload()
+		else
+			toastr.error(json.message)
+		return	
 	return
 
 $('#add-media').click (e) ->
@@ -167,6 +196,23 @@ $('.edit-volunteer').click (e) ->
 			$('.delete-volunteer').removeClass 'hidden'
 		return
 
+	return
+
+
+$('.edit-donor').click (e) ->
+	e.preventDefault();
+	id = $(this).data('id')
+	getInfo()
+	data.modify_donor = true
+	data.updates = {}
+
+	recurring_donations = $('#edit-donor-recurring_donations-'+id)
+	legal_form = $('#edit-donor-legal_form-'+id)
+
+	data.updates.recurring_donations = recurring_donations.val()
+	data.updates.legal_form = legal_form.val()
+
+	console.log data		
 	return
 
 $('.edit-media').click (e) ->
