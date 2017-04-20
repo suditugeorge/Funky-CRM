@@ -17,6 +17,7 @@ use App\Models\Domain;
 use App\Models\Skill;
 use App\Http\Controllers\VolunteersController;
 use App\Http\Controllers\MediaController;
+use App\Http\Controllers\DonnerController;
 
 class UserController extends Controller
 {
@@ -171,10 +172,11 @@ class UserController extends Controller
     public function editCitizenView(Request $request,$id)
     {
 
-        $contact = Contact::with('volunteer','media')->where('id','=',$id)->first();
+        $contact = Contact::with('volunteer','media','donor')->where('id','=',$id)->first();
 
         $users = User::where('is_admin','=',0)->get();
         //die(print_r($contact->media[2]->links));
+        //die(print_r($contact));
 
         return view('edit-citizen/edit-citizen',['user' => Auth::user(),'contact' => $contact,'users' => $users]);
 
@@ -231,6 +233,11 @@ class UserController extends Controller
         //Daca se sterge un media
         if(isset($request->delete_media) && $request->delete_media == true){
             $response = MediaController::deleteMedia($request,$contact);
+        }
+
+        //Daca se adauga un donator
+        if(isset($request->new_donor) && $request->new_donor = true){
+            $response = DonnerController::addDonner($request,$contact); 
         }
 
         return response()->json($response);
