@@ -14,4 +14,9 @@ class Donor extends Model
         return $this->belongsTo(Contact::class);
     }
 
+    public function donation()
+    {
+    	return $this->hasMany(Donation::class);
+    }       
+
 }

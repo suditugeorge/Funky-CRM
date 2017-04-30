@@ -236,9 +236,29 @@ class UserController extends Controller
         }
 
         //Daca se adauga un donator
-        if(isset($request->new_donor) && $request->new_donor = true){
-            $response = DonnerController::addDonner($request,$contact); 
+        if(isset($request->new_donor) && $request->new_donor == true){
+            $response = DonnerController::addDoner($request,$contact); 
         }
+
+        //Daca se modifica un donator
+        if(isset($request->modify_donor) && $request->modify_donor == true){
+            $response = DonnerController::modifyDonor($request,$contact);
+        }
+
+        //Daca se modifica o donatie
+        if(isset($request->modify_donation) && $request->modify_donation == true){
+            $response = DonnerController::modifyDonation($request,$contact);
+        }
+
+        //Daca se sterge o donatie
+        if(isset($request->delete_donation) && $request->delete_donation == true){
+            $response = DonnerController::deleteDonation($request,$contact);
+        }   
+
+        //Daca se sterge un donator
+        if(isset($request->delete_donor) && $request->delete_donor == true){
+            $response = DonnerController::deleteDoner($request,$contact);
+        }                
 
         return response()->json($response);
 

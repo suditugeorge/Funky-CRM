@@ -200,21 +200,77 @@ $('.edit-volunteer').click (e) ->
 
 
 $('.edit-donor').click (e) ->
-	e.preventDefault();
+	e.preventDefault();	
 	id = $(this).data('id')
+	$('#edit-donor-spinner-'+id).removeClass 'hidden'
+	$('#edit-donor-'+id).addClass 'hidden'
+	$('#delete-donor-'+id).addClass 'hidden'	
 	getInfo()
 	data.modify_donor = true
 	data.updates = {}
 
 	recurring_donations = $('#edit-donor-recurring_donations-'+id)
 	legal_form = $('#edit-donor-legal_form-'+id)
+	new_donation_sum = $('#new-donation-sum-'+id)
+	new_donation_reward = $('#new-donation-reward-'+id)
+	new_donation_after_campaign = $('#new-donation-after_campaign-'+id)
+	new_donation_comment = $('#new-donation-comment-'+id)	
 
 	data.updates.recurring_donations = recurring_donations.val()
 	data.updates.legal_form = legal_form.val()
+	data.updates.donor_id = id
+	if new_donation_sum != "" && parseFloat(new_donation_sum.val()) != 0 && !isNaN(parseFloat(new_donation_sum.val()))
+		data.updates.new_donation = true
+		data.updates.new_donation_sum = parseFloat(new_donation_sum.val())
+		data.updates.new_donation_reward = new_donation_reward.val()
+		data.updates.new_donation_after_campaign = new_donation_after_campaign.val()
+		data.updates.new_donation_comment = new_donation_comment.val()
 
-	console.log data		
+	$.post '/edit-citizen', data , (json) ->
+		if json.success
+			location.reload()
+		else
+			toastr.error(json.message)
+			$('#edit-donor-spinner-'+id).addClass 'hidden'
+			$('#edit-donor-'+id).removeClass 'hidden'
+			$('#delete-donor-'+id).removeClass 'hidden'
+		return
+		
 	return
 
+$('.edit-donation').click (e) ->	
+	e.preventDefault();
+	id = $(this).data('id')
+	$('#edit-donation-spinner-'+id).removeClass 'hidden'
+	$('#edit-donation-'+id).addClass 'hidden'
+	$('#delete-donation-'+id).addClass 'hidden'	
+
+	getInfo()
+	data.modify_donation = true
+	data.updates = {}		
+
+	donation_sum = $('#donation-sum-'+id)
+	donation_reward = $('#donation-reward-'+id)
+	donation_after_campaign = $('#donation-after_campaign-'+id)
+	donation_comment = $('#donation-comment-'+id)
+	if donation_sum != "" && parseFloat(donation_sum.val()) != 0 && !isNaN(parseFloat(donation_sum.val()))
+		data.updates.id = id
+		data.updates.donation_sum = parseFloat(donation_sum.val())
+		data.updates.donation_reward = donation_reward.val()
+		data.updates.donation_after_campaign = donation_after_campaign.val()
+		data.updates.donation_comment = donation_comment.val()	
+
+		$.post '/edit-citizen', data , (json) ->
+			if json.success
+				location.reload()
+			else
+				toastr.error(json.message)
+				$('#edit-donation-spinner-'+id).addClass 'hidden'
+				$('#edit-donation-'+id).removeClass 'hidden'
+				$('#delete-donation-'+id).removeClass 'hidden'
+			return		
+
+	return
 $('.edit-media').click (e) ->
 	e.preventDefault();
 	id = $(this).data('id')
@@ -262,6 +318,50 @@ $('.edit-media').click (e) ->
 		return
 
 	return
+
+$('.delete-donation').click (e) ->
+	e.preventDefault();
+	id = $(this).data('id')
+	$('#edit-donation-spinner-'+id).removeClass 'hidden'
+	$('#edit-donation-'+id).addClass 'hidden'
+	$('#delete-donation-'+id).addClass 'hidden'
+	getInfo()
+
+	data.donation_id = id
+	data.delete_donation = true
+
+	$.post '/edit-citizen', data , (json) ->
+		if json.success
+			location.reload()
+		else
+			toastr.error(json.message)
+			$('#edit-donation-spinner-'+id).addClass 'hidden'
+			$('#edit-donation-'+id).removeClass 'hidden'
+			$('#delete-donation-'+id).removeClass 'hidden'
+		return
+	return	
+
+$('.delete-donor').click (e) ->
+	e.preventDefault();
+	id = $(this).data('id')
+	$('#edit-donor-spinner-'+id).removeClass 'hidden'
+	$('#edit-donor-'+id).addClass 'hidden'
+	$('#delete-donor-'+id).addClass 'hidden'
+	getInfo()
+
+	data.donor_id = id
+	data.delete_donor = true
+
+	$.post '/edit-citizen', data , (json) ->
+		if json.success
+			location.reload()
+		else
+			toastr.error(json.message)
+			$('#edit-donor-spinner-'+id).addClass 'hidden'
+			$('#edit-donor-'+id).removeClass 'hidden'
+			$('#delete-donor-'+id).removeClass 'hidden'
+		return
+	return		
 
 $('.delete-volunteer').click (e) ->
 	e.preventDefault();

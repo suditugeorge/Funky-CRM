@@ -44,6 +44,63 @@
               </div>                            
             </div>
 
+            @foreach($donor->donation as $donation)
+            <div class="row">
+              <div class="col-md-12">
+                <hr class="mt-2 mb-2"/>
+                <h4><b>Donație #{{$donation->id}}</b></h4>
+              </div>           
+              <div class="col-md-6">
+                <div class="md-form">
+                    <input type="text" id="donation-sum-{{$donation->id}}" class="form-control validate" value="{{$donation->sum}}">
+                    <label for="donation-sum-{{$donation->id}}">Suma donată</label>
+                </div>     
+              </div>  
+              <div class="col-md-6">
+                <select class="mdb-select" id="donation-reward-{{$donation->id}}">
+                    <option value="" disabled>Alege o opțiune</option>
+                    @if($donation->reward == 1)
+                      <option value="1" selected>Da</option>
+                      <option value="0">Nu</option>
+                    @else
+                      <option value="1">Da</option>
+                      <option value="0" selected>Nu</option>      
+                    @endif              
+                </select>
+                <label>Recompensă</label>                                
+              </div>    
+              <div class="col-md-6">
+                <select class="mdb-select" id="donation-after_campaign-{{$donation->id}}">
+                    <option value="" disabled>Alege o opțiune</option>
+                    @if($donation->after_campaign == 1)
+                      <option value="1" selected>Da</option>
+                      <option value="0">Nu</option>
+                    @else
+                      <option value="1">Da</option>
+                      <option value="0" selected>Nu</option>      
+                    @endif        
+                </select>
+                <label>A donat după campanie?</label>                                
+              </div>  
+              <div class="col-md-6">
+                  <div class="md-form">
+                      <textarea type="text" id="donation-comment-{{$donation->id}}" class="md-textarea" style="resize:vertical;">{{$donation->comment}}</textarea>
+                      <label for="donation-comment-{{$donation->id}}">Comentarii donator</label>
+                  </div>
+              </div>                                                  
+            </div>  
+            <div class="row">
+                <div class="col-md-12 text-center hidden" id="edit-donation-spinner-{{$donation->id}}"><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i></div>
+                <div class="col-md-9 text-right">
+                    <button class="btn btn-primary edit-donation" data-id="{{$donation->id}}" id="edit-donation-{{$donation->id}}">Modifică donația #{{$donation->id}}</button>
+                </div>
+                <div class="col-md-3 text-right">
+                    <button type="button" class="btn btn-danger delete-donation" data-id="{{$donation->id}}" id="delete-donation-{{$donation->id}}">Șterge donația #{{$donation->id}}</button>
+                </div>
+            </div>                        
+            @endforeach
+
+
             <div class="row">
               <div class="col-md-12">
                 <hr class="mt-2 mb-2"/>
@@ -85,7 +142,7 @@
                     <button class="btn btn-primary edit-donor" data-id="{{$donor->id}}" id="edit-donor-{{$donor->id}}">Modifică donator</button>
                 </div>
                 <div class="col-md-2 text-right">
-                    <button type="button" class="btn btn-danger delete-donor" data-id="{{$donor->id}}" id="delete-donor-{{$donor->id}}">Șterge</button>
+                    <button type="button" class="btn btn-danger delete-donor" data-id="{{$donor->id}}" id="delete-donor-{{$donor->id}}">Șterge donator</button>
                 </div>
             </div>
         </form>
