@@ -15,6 +15,11 @@ use App\Models\Volunteer;
 use App\Models\Attendance;
 use App\Models\Domain;
 use App\Models\Skill;
+use App\Models\Politician;
+use App\Models\Media;
+use App\Models\Employee;
+use App\Models\Donor;
+use App\Models\Colaborator;
 use App\Http\Controllers\VolunteersController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\DonnerController;
@@ -86,7 +91,28 @@ class UserController extends Controller
 
     public function searchUsers(Request $request)
     {
-        return view('dashboard/users',['user' => Auth::user()]);
+
+        $volunteers_count = Volunteer::count();
+        $media_count = Media::count();
+        $donors_count = Donor::count();
+        $colaborator_count = Colaborator::count();
+        $employee_count = Employee::count();
+        $politicians_count = Politician::count();
+        $contacts_count = Contact::count();
+
+        $contacts = Contact::orderBy('id', 'asc')->paginate(15);
+
+        return view('dashboard/users',[
+            'user' => Auth::user(),
+            'volunteers_count' => $volunteers_count,
+            'media_count' => $media_count,
+            'donors_count' => $donors_count,
+            'colaborator_count' => $colaborator_count,
+            'employee_count' => $employee_count,
+            'politicians_count' => $politicians_count,
+            'contacts_count' => $contacts_count,
+            'contacts' => $contacts
+            ]);
     }
 
     public function addFunkyUser(Request $request)
