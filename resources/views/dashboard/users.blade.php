@@ -31,13 +31,33 @@ Profil
               <h4 class="h4-responsive">Contacte ({{ $contacts_count }})</h4>
             </div>
           </div>
-          <form>
+          <form action="/users" method="post">
+          <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
           <div class="row">
-            <div class="col-md-6 py-1 px-1">
+            <div class="col-md-4 py-1 px-1">
               <div class="md-form">
-                <input placeholder="Caută un contact după email..." type="text" id="form5" class="form-control">
+                  <div class="md-form">
+                      <input type="text" id="search_email" name="search_email"></input>
+                      <label for="search_email">Caută după email</label>
+                  </div>
               </div>
             </div>
+            <div class="col-md-4">
+							<select class="mdb-select colorful-select dropdown-default" id="categorie_cetatean" name="categorie_cetatean">
+								<option value="pick" disabled selected>Alege o categorie</option>
+								<option value="voluntar">Voluntar</option>
+								<option value="media">Media</option>
+								<option value="donator">Donator</option>
+                <option value="politician">Politician</option>
+								<option value="colaborator">Colaborator</option>
+								<option value="functionar">Funcționar</option>
+							</select>
+							<label>Adaugă categorie</label>
+            </div>            
+            <div class="col-md-4 text-right py-1 px-1">
+              <button class="btn btn-primary" id="search-contact">Caută</button>
+          	</div>
           </div>
           </form>
           <div class="row">
