@@ -72,36 +72,49 @@
       $('#new-volunteer').addClass('hidden');
       $('#new-politician').addClass('hidden');
       $('#new-colaborator').addClass('hidden');
+      $('#new-employee').addClass('hidden');
     } else if (categorie === 'voluntar') {
       $('#new-volunteer').removeClass('hidden');
       $('#new-media').addClass('hidden');
       $('#new-donor').addClass('hidden');
       $('#new-politician').addClass('hidden');
       $('#new-colaborator').addClass('hidden');
+      $('#new-employee').addClass('hidden');
     } else if (categorie === 'media') {
       $('#new-media').removeClass('hidden');
       $('#new-volunteer').addClass('hidden');
       $('#new-donor').addClass('hidden');
       $('#new-politician').addClass('hidden');
       $('#new-colaborator').addClass('hidden');
+      $('#new-employee').addClass('hidden');
     } else if (categorie === 'donator') {
       $('#new-donor').removeClass('hidden');
       $('#new-volunteer').addClass('hidden');
       $('#new-media').addClass('hidden');
       $('#new-politician').addClass('hidden');
       $('#new-colaborator').addClass('hidden');
+      $('#new-employee').addClass('hidden');
     } else if (categorie === 'politician') {
       $('#new-politician').removeClass('hidden');
       $('#new-donor').addClass('hidden');
       $('#new-volunteer').addClass('hidden');
       $('#new-media').addClass('hidden');
       $('#new-colaborator').addClass('hidden');
+      $('#new-employee').addClass('hidden');
     } else if (categorie === 'colaborator') {
       $('#new-colaborator').removeClass('hidden');
       $('#new-politician').addClass('hidden');
       $('#new-donor').addClass('hidden');
       $('#new-volunteer').addClass('hidden');
       $('#new-media').addClass('hidden');
+      $('#new-employee').addClass('hidden');
+    } else if (categorie === 'functionar') {
+      $('#new-employee').removeClass('hidden');
+      $('#new-politician').addClass('hidden');
+      $('#new-donor').addClass('hidden');
+      $('#new-volunteer').addClass('hidden');
+      $('#new-media').addClass('hidden');
+      $('#new-colaborator').addClass('hidden');
     }
   });
 
@@ -131,6 +144,26 @@
         toastr.error(json.message);
         $('#add-volunteer-spinner').addClass('hidden');
         $('#add-volunteer').removeClass('hidden');
+      }
+    });
+  });
+
+  $('#add-employee').click(function(e) {
+    var keyword;
+    e.preventDefault();
+    $('#add-employee-spinner').removeClass('hidden');
+    $('#add-employee').addClass('hidden');
+    keyword = $('#new-employee-keyword');
+    getInfo();
+    data.new_employee = true;
+    data.keyword = keyword.val();
+    $.post('/edit-citizen', data, function(json) {
+      if (json.success) {
+        location.reload();
+      } else {
+        toastr.error(json.message);
+        $('#add-employee-spinner').addClass('hidden');
+        $('#add-employee').removeClass('hidden');
       }
     });
   });
@@ -283,6 +316,8 @@
     var actual_position, domenii_de_interes, end_date, html_links, id, intersections_at_events, known_for, liason, links, new_date, new_link, new_partie_name, openness_rating, reasonability_rating;
     e.preventDefault();
     id = $(this).data('id');
+    $('#edit-politician-spinner-' + id).removeClass('hidden');
+    $('#edit-politician-' + id).addClass('hidden');
     actual_position = $('#politician-position-' + id);
     liason = $('#politician-liason-' + id);
     domenii_de_interes = $('#politician-domains-' + id);
@@ -334,6 +369,81 @@
         toastr.error(json.message);
         $('#edit-politician-spinner-' + id).addClass('hidden');
         $('#edit-politician-' + id).removeClass('hidden');
+      }
+    });
+  });
+
+  $('.edit-employee').click(function(e) {
+    var end_date, id, keyword, new_date, new_institution_job_description, new_institution_job_title, new_institution_name;
+    e.preventDefault();
+    id = $(this).data('id');
+    keyword = $('#employee-keyword-' + id);
+    getInfo();
+    data.modify_employee = true;
+    data.updates = {};
+    data.updates.id = id;
+    data.updates.keyword = keyword.val();
+    new_institution_name = $('#new-institution-name-' + id);
+    data.updates.new_institution_name = new_institution_name.val();
+    new_institution_job_title = $('#new-institution-job_title-' + id);
+    data.updates.new_institution_job_title = new_institution_job_title.val();
+    new_institution_job_description = $('#new-institution-job_description-' + id);
+    data.updates.new_institution_job_description = new_institution_job_description.val();
+    new_date = new Date($('#new-institution_start_date-' + id).val());
+    data.updates.new_institution_start_date = {};
+    data.updates.new_institution_start_date.day = new_date.getDate();
+    data.updates.new_institution_start_date.month = new_date.getMonth();
+    data.updates.new_institution_start_date.year = new_date.getFullYear();
+    end_date = new Date($('#new-institution_end_date-' + id).val());
+    data.updates.new_institution_end_date = {};
+    data.updates.new_institution_end_date.day = end_date.getDate();
+    data.updates.new_institution_end_date.month = end_date.getMonth();
+    data.updates.new_institution_end_date.year = end_date.getFullYear();
+    $.post('/edit-citizen', data, function(json) {
+      if (json.success) {
+        location.reload();
+      } else {
+        toastr.error(json.message);
+        $('#edit-politician-spinner-' + id).addClass('hidden');
+        $('#edit-politician-' + id).removeClass('hidden');
+      }
+    });
+  });
+
+  $('.edit-institution').click(function(e) {
+    var end_date, id, institution_job_description, institution_job_title, institution_name, new_date;
+    e.preventDefault();
+    id = $(this).data('id');
+    $('#edit-institution-spinner-' + id).removeClass('hidden');
+    $('#edit-institution-' + id).addClass('hidden');
+    $('#delete-institution-' + id).addClass('hidden');
+    getInfo();
+    data.modify_institution = true;
+    data.updates = {};
+    data.updates.id = id;
+    institution_name = $('#institution-name-' + id);
+    data.updates.institution_name = institution_name.val();
+    institution_job_title = $('#institution-job_title-' + id);
+    data.updates.institution_job_title = institution_job_title.val();
+    institution_job_description = $('#institution-job_description-' + id);
+    data.updates.institution_job_description = institution_job_description.val();
+    new_date = new Date($('#institution_start_date-' + id).val());
+    data.updates.institution_start_date = {};
+    data.updates.institution_start_date.day = new_date.getDate();
+    data.updates.institution_start_date.month = new_date.getMonth();
+    data.updates.institution_start_date.year = new_date.getFullYear();
+    end_date = new Date($('#institution_end_date-' + id).val());
+    data.updates.institution_end_date = {};
+    data.updates.institution_end_date.day = end_date.getDate();
+    data.updates.institution_end_date.month = end_date.getMonth();
+    data.updates.institution_end_date.year = end_date.getFullYear();
+    $.post('/edit-citizen', data, function(json) {
+      if (json.success) {
+        location.reload();
+      } else {
+        toastr.error(json.message);
+        $('#edit-institution-spinner-' + id).addClass('hidden');
+        $('#edit-institution-' + id).removeClass('hidden');
       }
     });
   });
@@ -542,6 +652,50 @@
         $('#edit-donation-spinner-' + id).addClass('hidden');
         $('#edit-donation-' + id).removeClass('hidden');
         $('#delete-donation-' + id).removeClass('hidden');
+      }
+    });
+  });
+
+  $('.delete-institution').click(function(e) {
+    var id;
+    e.preventDefault();
+    id = $(this).data('id');
+    $('#edit-institution-spinner-' + id).removeClass('hidden');
+    $('#edit-institution-' + id).addClass('hidden');
+    $('#delete-institution-' + id).addClass('hidden');
+    getInfo();
+    data.institution_id = id;
+    data.delete_institution = true;
+    $.post('/edit-citizen', data, function(json) {
+      if (json.success) {
+        location.reload();
+      } else {
+        toastr.error(json.message);
+        $('#edit-institution-spinner-' + id).addClass('hidden');
+        $('#edit-institution-' + id).removeClass('hidden');
+        $('#delete-institution-' + id).removeClass('hidden');
+      }
+    });
+  });
+
+  $('.delete-employee').click(function(e) {
+    var id;
+    e.preventDefault();
+    id = $(this).data('id');
+    $('#edit-employee-spinner-' + id).removeClass('hidden');
+    $('#edit-employee-' + id).addClass('hidden');
+    $('#delete-employee-' + id).addClass('hidden');
+    getInfo();
+    data.employee_id = id;
+    data.delete_employee = true;
+    $.post('/edit-citizen', data, function(json) {
+      if (json.success) {
+        location.reload();
+      } else {
+        toastr.error(json.message);
+        $('#edit-employee-spinner-' + id).addClass('hidden');
+        $('#edit-employee-' + id).removeClass('hidden');
+        $('#delete-employee-' + id).removeClass('hidden');
       }
     });
   });

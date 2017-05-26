@@ -119,12 +119,16 @@ Adaugă cetățean
 </div>
 
 @include('edit-citizen.add-volunteer')
+@include('edit-citizen.add-employee')
 @include('edit-citizen.add-colaborator')
 @include('edit-citizen.add-media')
 @include('edit-citizen.add-donor')
 @include('edit-citizen.add-politician')
 @foreach($contact->colaborator as $col)
   @include('edit-citizen.see-colaborator',['colaborator' => $col])
+@endforeach
+@foreach($contact->employee as $empl)
+  @include('edit-citizen.see-employee',['employee' => $empl])
 @endforeach
 @foreach($contact->donor as $don)
   @include('edit-citizen.see-donor',['donor' => $don])

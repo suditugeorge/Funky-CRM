@@ -20,6 +20,7 @@ use App\Http\Controllers\MediaController;
 use App\Http\Controllers\DonnerController;
 use App\Http\Controllers\PoliticianController;
 use App\Http\Controllers\ColaboratorController;
+use App\Http\Controllers\EmployeeController;
 
 class UserController extends Controller
 {
@@ -174,7 +175,7 @@ class UserController extends Controller
     public function editCitizenView(Request $request,$id)
     {
 
-        $contact = Contact::with('volunteer','media','donor','politician','colaborator')->where('id','=',$id)->first();
+        $contact = Contact::with('volunteer','media','donor','politician','colaborator','employee')->where('id','=',$id)->first();
 
         $users = User::where('is_admin','=',0)->get();
 
@@ -298,7 +299,33 @@ class UserController extends Controller
         //Daca se sterge un colaborator
         if(isset($request->delete_colaborator) && $request->delete_colaborator == true){
             $response = ColaboratorController::deleteColaborator($request,$contact);
-        }                              
+        }            
+
+        //Daca se adauga un funcționar
+        if(isset($request->new_employee) && $request->new_employee == true){
+            $response = EmployeeController::addEmployee($request,$contact); 
+        }   
+
+        //Daca se modifica un functionar
+        if(isset($request->modify_employee) && $request->modify_employee == true){
+            $response = EmployeeController::modifyEmployee($request,$contact);
+        }    
+
+        //Daca se modifica o instituție
+        if(isset($request->modify_institution) && $request->modify_institution == true){
+            $response = EmployeeController::modifyInstitution($request,$contact);
+        }                     
+
+        //Daca se sterge o instituție
+        if(isset($request->delete_institution) && $request->delete_institution == true){
+            $response = EmployeeController::deleteInstitution($request,$contact);
+        }  
+
+        //Daca se sterge un funcționar
+        if(isset($request->delete_employee) && $request->delete_employee == true){
+            $response = EmployeeController::deleteEmployee($request,$contact);
+        }        
+                 
 
         return response()->json($response);
 

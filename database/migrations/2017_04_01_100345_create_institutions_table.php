@@ -24,10 +24,7 @@ class CreateInstitutionsTable extends Migration
             $table->date('from')->nullable();
             $table->date('until')->nullable();
         });
-        Schema::table('employees', function (Blueprint $table) {
-            $table->integer('institution_id')->unsigned()->comment('instituția curentă')->after('contact_id');
-            $table->foreign('institution_id')->references('id')->on('institutions');
-        });
+
     }
 
     /**
@@ -38,9 +35,8 @@ class CreateInstitutionsTable extends Migration
     public function down()
     {
         Schema::table('employees', function (Blueprint $table) {
-            $table->dropForeign(['institution_id']);
-            $table->dropColumn('institution_id');
+           $table->dropForeign(['contact_id']);
         });
-        Schema::dropIfExists('institutions');
+        Schema::dropIfExists('employees');
     }
 }

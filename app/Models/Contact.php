@@ -32,4 +32,9 @@ class Contact extends Model
     {
         return $this->hasMany(Colaborator::class);
     }     
+
+    public function employee()
+    {
+        return $this->hasMany(Employee::class);
+    }      
 }
