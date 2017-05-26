@@ -38,8 +38,7 @@ Route::group(['middleware' => 'isLogedIn'], function () {
         'uses' => 'MainController@logout',
     ]);
 
-
-    Route::match(['get','post'],'/add-citizen', [
+    Route::match(['get', 'post'], '/add-citizen', [
         'uses' => 'UserController@addCitizen',
     ]);
 
@@ -69,7 +68,7 @@ Route::group(['middleware' => 'isLogedIn'], function () {
     //For all this routes all users must be admins
     Route::group(['middleware' => 'isLogedIn'], function () {
 
-        Route::match(['get','post'], '/add-funky', [
+        Route::match(['get', 'post'], '/add-funky', [
             'uses' => 'UserController@addFunkyUser',
         ]);
 
@@ -78,5 +77,7 @@ Route::group(['middleware' => 'isLogedIn'], function () {
         ]);
 
     });
+
+    Route::get('/export/{entity}/{format}', 'ExportController@export')->name('export');
 
 });
