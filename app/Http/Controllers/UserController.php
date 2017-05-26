@@ -19,6 +19,7 @@ use App\Http\Controllers\VolunteersController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\DonnerController;
 use App\Http\Controllers\PoliticianController;
+use App\Http\Controllers\ColaboratorController;
 
 class UserController extends Controller
 {
@@ -173,7 +174,7 @@ class UserController extends Controller
     public function editCitizenView(Request $request,$id)
     {
 
-        $contact = Contact::with('volunteer','media','donor','politician')->where('id','=',$id)->first();
+        $contact = Contact::with('volunteer','media','donor','politician','colaborator')->where('id','=',$id)->first();
 
         $users = User::where('is_admin','=',0)->get();
 
@@ -282,7 +283,22 @@ class UserController extends Controller
         //Daca se sterge un politician
         if(isset($request->delete_politician) && $request->delete_politician == true){
             $response = PoliticianController::deletePolitician($request,$contact);
-        }                 
+        }     
+
+        //Daca se adauga un colaborator
+        if(isset($request->new_colaborator) && $request->new_colaborator == true){
+            $response = ColaboratorController::addColaborator($request,$contact); 
+        }    
+
+        //Daca se modifica un colaborator
+        if(isset($request->modify_colaborator) && $request->modify_colaborator == true){
+            $response = ColaboratorController::modifyColaborator($request,$contact);
+        }          
+
+        //Daca se sterge un colaborator
+        if(isset($request->delete_colaborator) && $request->delete_colaborator == true){
+            $response = ColaboratorController::deleteColaborator($request,$contact);
+        }                              
 
         return response()->json($response);
 

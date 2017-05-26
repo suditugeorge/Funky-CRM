@@ -26,5 +26,10 @@ class Contact extends Model
     public function politician()
     {
         return $this->hasMany(Politician::class);
-    }        
+    }   
+
+    public function colaborator()
+    {
+        return $this->hasMany(Colaborator::class);
+    }     
 }

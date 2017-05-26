@@ -71,23 +71,34 @@
       $('#new-donor').addClass('hidden');
       $('#new-volunteer').addClass('hidden');
       $('#new-politician').addClass('hidden');
+      $('#new-colaborator').addClass('hidden');
     } else if (categorie === 'voluntar') {
       $('#new-volunteer').removeClass('hidden');
       $('#new-media').addClass('hidden');
       $('#new-donor').addClass('hidden');
       $('#new-politician').addClass('hidden');
+      $('#new-colaborator').addClass('hidden');
     } else if (categorie === 'media') {
       $('#new-media').removeClass('hidden');
       $('#new-volunteer').addClass('hidden');
       $('#new-donor').addClass('hidden');
       $('#new-politician').addClass('hidden');
+      $('#new-colaborator').addClass('hidden');
     } else if (categorie === 'donator') {
       $('#new-donor').removeClass('hidden');
       $('#new-volunteer').addClass('hidden');
       $('#new-media').addClass('hidden');
       $('#new-politician').addClass('hidden');
+      $('#new-colaborator').addClass('hidden');
     } else if (categorie === 'politician') {
       $('#new-politician').removeClass('hidden');
+      $('#new-donor').addClass('hidden');
+      $('#new-volunteer').addClass('hidden');
+      $('#new-media').addClass('hidden');
+      $('#new-colaborator').addClass('hidden');
+    } else if (categorie === 'colaborator') {
+      $('#new-colaborator').removeClass('hidden');
+      $('#new-politician').addClass('hidden');
       $('#new-donor').addClass('hidden');
       $('#new-volunteer').addClass('hidden');
       $('#new-media').addClass('hidden');
@@ -120,6 +131,32 @@
         toastr.error(json.message);
         $('#add-volunteer-spinner').addClass('hidden');
         $('#add-volunteer').removeClass('hidden');
+      }
+    });
+  });
+
+  $('#add-colaborator').click(function(e) {
+    var detalii, domenii_de_interes, keyword, skills;
+    e.preventDefault();
+    $('#add-colaborator-spinner').removeClass('hidden');
+    $('#add-colaborator').addClass('hidden');
+    domenii_de_interes = $('#new-colaborator-domains');
+    skills = $('#new-colaborator-skills');
+    keyword = $('#new-colaborator-keyword');
+    detalii = $('#new-colaborator-availability');
+    getInfo();
+    data.new_colaborator = true;
+    data.domains_of_interest = domenii_de_interes.val();
+    data.skills = skills.val();
+    data.keyword = keyword.val();
+    data.availability = detalii.val();
+    $.post('/edit-citizen', data, function(json) {
+      if (json.success) {
+        location.reload();
+      } else {
+        toastr.error(json.message);
+        $('#add-colaborator-spinner').addClass('hidden');
+        $('#add-colaborator').removeClass('hidden');
       }
     });
   });
@@ -336,6 +373,37 @@
     });
   });
 
+  $('.edit-colaborator').click(function(e) {
+    var availability, domains_of_interest, id, keyword, skills;
+    e.preventDefault();
+    id = $(this).data('id');
+    $('#edit-colaborator-spinner-' + id).removeClass('hidden');
+    $('#edit-colaborator-' + id).addClass('hidden');
+    $('#delete-colaborator-' + id).addClass('hidden');
+    getInfo();
+    data.modify_colaborator = true;
+    data.updates = {};
+    data.updates.id = id;
+    domains_of_interest = $('#colaborator-domains-' + id);
+    skills = $('#colaborator-skills-' + id);
+    availability = $('#colaborator-availability-' + id);
+    keyword = $('#colaborator-keyword-' + id);
+    data.updates.domains_of_interest = domains_of_interest.val();
+    data.updates.skills = skills.val();
+    data.updates.availability = availability.val();
+    data.updates.keyword = keyword.val();
+    $.post('/edit-citizen', data, function(json) {
+      if (json.success) {
+        location.reload();
+      } else {
+        toastr.error(json.message);
+        $('#edit-colaborator-spinner-' + id).addClass('hidden');
+        $('#edit-colaborator-' + id).removeClass('hidden');
+        $('#delete-colaborator-' + id).removeClass('hidden');
+      }
+    });
+  });
+
   $('.edit-donor').click(function(e) {
     var id, legal_form, new_donation_after_campaign, new_donation_comment, new_donation_reward, new_donation_sum, recurring_donations;
     e.preventDefault();
@@ -478,6 +546,28 @@
     });
   });
 
+  $('.delete-colaborator').click(function(e) {
+    var id;
+    e.preventDefault();
+    id = $(this).data('id');
+    $('#edit-colaborator-spinner-' + id).removeClass('hidden');
+    $('#edit-colaborator-' + id).addClass('hidden');
+    $('#delete-colaborator-' + id).addClass('hidden');
+    getInfo();
+    data.colaborator_id = id;
+    data.delete_colaborator = true;
+    $.post('/edit-citizen', data, function(json) {
+      if (json.success) {
+        location.reload();
+      } else {
+        toastr.error(json.message);
+        $('#edit-colaborator-spinner-' + id).addClass('hidden');
+        $('#edit-colaborator-' + id).removeClass('hidden');
+        $('#delete-colaborator-' + id).removeClass('hidden');
+      }
+    });
+  });
+
   $('.delete-partie').click(function(e) {
     var id;
     e.preventDefault();
@@ -592,6 +682,10 @@
     tags: true
   });
 
+  $('#new-colaborator-skills').select2({
+    tags: true
+  });
+
   $('#volunteer-rating').barrating({
     theme: 'fontawesome-stars'
   });
@@ -609,6 +703,10 @@
   });
 
   $('.volunteer-skills').select2({
+    tags: true
+  });
+
+  $('.colaborator-skills').select2({
     tags: true
   });
 
