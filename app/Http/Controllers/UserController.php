@@ -18,6 +18,7 @@ use App\Models\Skill;
 use App\Http\Controllers\VolunteersController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\DonnerController;
+use App\Http\Controllers\PoliticianController;
 
 class UserController extends Controller
 {
@@ -172,11 +173,9 @@ class UserController extends Controller
     public function editCitizenView(Request $request,$id)
     {
 
-        $contact = Contact::with('volunteer','media','donor')->where('id','=',$id)->first();
+        $contact = Contact::with('volunteer','media','donor','politician')->where('id','=',$id)->first();
 
         $users = User::where('is_admin','=',0)->get();
-        //die(print_r($contact->media[2]->links));
-        //die(print_r($contact));
 
         return view('edit-citizen/edit-citizen',['user' => Auth::user(),'contact' => $contact,'users' => $users]);
 
@@ -258,7 +257,32 @@ class UserController extends Controller
         //Daca se sterge un donator
         if(isset($request->delete_donor) && $request->delete_donor == true){
             $response = DonnerController::deleteDoner($request,$contact);
-        }                
+        }     
+
+        //Daca se adauga un politician
+        if(isset($request->new_politician) && $request->new_politician == true){
+            $response = PoliticianController::addPolitician($request,$contact); 
+        }                 
+
+        //Daca se modifica un politician
+        if(isset($request->modify_politician) && $request->modify_politician == true){
+            $response = PoliticianController::modifyPolitician($request,$contact);
+        }          
+
+        //Daca se modifica un partid
+        if(isset($request->modify_partie) && $request->modify_partie == true){
+            $response = PoliticianController::modifyPartie($request,$contact);
+        }    
+
+        //Daca se sterge un partid
+        if(isset($request->delete_partie) && $request->delete_partie == true){
+            $response = PoliticianController::deletePartie($request,$contact);
+        }     
+
+        //Daca se sterge un politician
+        if(isset($request->delete_politician) && $request->delete_politician == true){
+            $response = PoliticianController::deletePolitician($request,$contact);
+        }                 
 
         return response()->json($response);
 

@@ -97,6 +97,7 @@ Adaugă cetățean
 									<option value="voluntar">Voluntar</option>
 									<option value="media">Media</option>
 									<option value="donator">Donator</option>
+                  <option value="politician">Politician</option>
 									<option value="colaborator">Colaborator</option>
 									<option value="functionar">Funcționar</option>
 								</select>
@@ -120,6 +121,7 @@ Adaugă cetățean
 @include('edit-citizen.add-volunteer')
 @include('edit-citizen.add-media')
 @include('edit-citizen.add-donor')
+@include('edit-citizen.add-politician')
 @foreach($contact->donor as $don)
   @include('edit-citizen.see-donor',['donor' => $don])
 @endforeach
@@ -128,6 +130,9 @@ Adaugă cetățean
 @endforeach
 @foreach($contact->media as $med)
   @include('edit-citizen.see-media',['media' => $med])
+@endforeach
+@foreach($contact->politician as $pol)
+  @include('edit-citizen.see-politician',['politician' => $pol])
 @endforeach
 </main>
 

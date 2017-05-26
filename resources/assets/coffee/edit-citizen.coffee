@@ -64,18 +64,27 @@ $('#adauga-categorie').on 'change', ->
 		$('#new-media').addClass 'hidden'
 		$('#new-donor').addClass 'hidden'
 		$('#new-volunteer').addClass 'hidden'
+		$('#new-politician').addClass 'hidden'
 	else if categorie == 'voluntar'
 		$('#new-volunteer').removeClass 'hidden'
 		$('#new-media').addClass 'hidden'
 		$('#new-donor').addClass 'hidden'
+		$('#new-politician').addClass 'hidden'
 	else if categorie == 'media'
 		$('#new-media').removeClass 'hidden'
 		$('#new-volunteer').addClass 'hidden'
 		$('#new-donor').addClass 'hidden'
+		$('#new-politician').addClass 'hidden'
 	else if categorie == 'donator'
 		$('#new-donor').removeClass 'hidden'
 		$('#new-volunteer').addClass 'hidden'
 		$('#new-media').addClass 'hidden'
+		$('#new-politician').addClass 'hidden'
+	else if categorie == 'politician'
+		$('#new-politician').removeClass 'hidden'
+		$('#new-donor').addClass 'hidden'
+		$('#new-volunteer').addClass 'hidden'
+		$('#new-media').addClass 'hidden'		
 	return
 
 $('#add-volunteer').click (e) ->
@@ -109,6 +118,45 @@ $('#add-volunteer').click (e) ->
 		return
 
 	return
+
+$('#add-politician').click (e) ->
+	e.preventDefault();
+	$('#add-politician-spinner').removeClass 'hidden'
+	$('#add-politician').addClass 'hidden'
+
+	actual_position = $('#new-politician-position')
+
+	liason = $('#new-politician-liason')
+	domenii_de_interes = $('#new-politician-domains')
+	link = $('#new-politician-link')
+	intersections_at_events = $('#new-politician-intersections_at_events')
+	known_for = $('#new-politician-known_for')
+	reasonability_rating = $('#new-politician-reasonability_rating')
+	openness_rating = $('#new-politician-openness_rating')
+
+	getInfo()
+	data.new_politician = true
+	data.updates = {}
+	data.updates.position = actual_position.val()
+	data.updates.domains_of_interest = domenii_de_interes.val()
+	data.updates.link = link.val()
+	data.updates.liason = liason.val()
+	data.updates.intersections_at_events = intersections_at_events.val()
+	data.updates.known_for = known_for.val()
+	data.updates.reasonability_rating = reasonability_rating.val()
+	data.updates.openness_rating = openness_rating.val()
+
+
+	$.post '/edit-citizen', data , (json) ->
+		if json.success
+			location.reload()
+		else
+			toastr.error(json.message)
+			$('#add-volunteer-spinner').addClass 'hidden'
+			$('#add-volunteer').removeClass 'hidden'
+		return
+
+	return	
 
 $('#add-donor').click (e) ->
 	e.preventDefault();
@@ -197,6 +245,108 @@ $('.edit-volunteer').click (e) ->
 		return
 
 	return
+
+$('.edit-politician').click (e) ->
+	e.preventDefault();
+	id = $(this).data('id')
+	#$('#edit-politician-spinner-'+id).removeClass 'hidden'
+	#$('#edit-politician-'+id).addClass 'hidden'
+
+	actual_position = $('#politician-position-'+id)
+
+	liason = $('#politician-liason-'+id)
+	domenii_de_interes = $('#politician-domains-'+id)
+	new_link = $('#politician-link-'+id+'-new')
+	intersections_at_events = $('#politician-intersections_at_events-'+id)
+	known_for = $('#politician-known_for-'+id)
+	reasonability_rating = $('#politician-reasonability_rating-'+id)
+	openness_rating = $('#politician-openness_rating-'+id)
+
+	getInfo()
+	data.modify_politician = true
+	data.updates = {}
+	data.updates.id = id
+	data.updates.position = actual_position.val()
+	data.updates.liason = liason.val()
+	data.updates.domains_of_interest = domenii_de_interes.val()
+	data.updates.new_link = new_link.val()
+	data.updates.intersections_at_events = intersections_at_events.val()
+	data.updates.known_for = known_for.val()
+	data.updates.reasonability_rating = reasonability_rating.val()
+	data.updates.openness_rating = openness_rating.val()
+	data.updates.links = []
+
+	new_partie_name = $('#new_partie_name-'+id)
+	data.updates.new_partie_name = new_partie_name.val()
+
+	new_date = new Date($('#new_partie_start_date-'+id).val())
+	data.updates.new_partie_start_date = {}
+	data.updates.new_partie_start_date.day = new_date.getDate()
+	data.updates.new_partie_start_date.month = new_date.getMonth()
+	data.updates.new_partie_start_date.year = new_date.getFullYear()
+
+	end_date = new Date($('#new_partie_end_date-'+id).val())
+	data.updates.new_partie_end_date = {}
+	data.updates.new_partie_end_date.day = end_date.getDate()
+	data.updates.new_partie_end_date.month = end_date.getMonth()
+	data.updates.new_partie_end_date.year = end_date.getFullYear()
+
+	html_links = $('.politician-link-'+id)
+	links = []
+	$.each html_links, (k) ->
+		pos = $(html_links[k]).data('link_id')
+		to_add = {id:pos, link:$(html_links[k]).val()}
+		data.updates.links.push(to_add)
+
+	$.post '/edit-citizen', data , (json) ->
+		if json.success
+			location.reload()
+		else
+			toastr.error(json.message)
+			$('#edit-politician-spinner-'+id).addClass 'hidden'
+			$('#edit-politician-'+id).removeClass 'hidden'
+		return
+
+	return		
+
+$('.edit-partie').click (e) ->	
+	e.preventDefault();
+	id = $(this).data('id')
+	$('#edit-partie-spinner-'+id).removeClass 'hidden'
+	$('#edit-partie-'+id).addClass 'hidden'
+	$('#delete-partie-'+id).addClass 'hidden'	
+
+	getInfo()
+	data.modify_partie = true
+	data.updates = {}		
+	data.updates.id = id
+
+	partie_name = $('#partie_name-'+id)
+	data.updates.partie_name = partie_name.val()
+
+	date = new Date($('#partie_start_date-'+id).val())
+	data.updates.partie_start_date = {}
+	data.updates.partie_start_date.day = date.getDate()
+	data.updates.partie_start_date.month = date.getMonth()
+	data.updates.partie_start_date.year = date.getFullYear()
+
+	end_date = new Date($('#partie_end_date-'+id).val())
+	data.updates.partie_end_date = {}
+	data.updates.partie_end_date.day = end_date.getDate()
+	data.updates.partie_end_date.month = end_date.getMonth()
+	data.updates.partie_end_date.year = end_date.getFullYear()
+
+	$.post '/edit-citizen', data , (json) ->
+		if json.success
+			location.reload()
+		else
+			toastr.error(json.message)
+			$('#edit-donation-spinner-'+id).addClass 'hidden'
+			$('#edit-donation-'+id).removeClass 'hidden'
+			$('#delete-donation-'+id).removeClass 'hidden'
+		return		
+
+	return	
 
 
 $('.edit-donor').click (e) ->
@@ -341,6 +491,50 @@ $('.delete-donation').click (e) ->
 		return
 	return	
 
+$('.delete-partie').click (e) ->
+	e.preventDefault();
+	id = $(this).data('id')
+	$('#edit-partie-spinner-'+id).removeClass 'hidden'
+	$('#edit-partie-'+id).addClass 'hidden'
+	$('#delete-partie-'+id).addClass 'hidden'
+	getInfo()
+
+	data.partie_id = id
+	data.delete_partie = true
+
+	$.post '/edit-citizen', data , (json) ->
+		if json.success
+			location.reload()
+		else
+			toastr.error(json.message)
+			$('#edit-partie-spinner-'+id).addClass 'hidden'
+			$('#edit-partie-'+id).removeClass 'hidden'
+			$('#delete-partie-'+id).removeClass 'hidden'
+		return
+	return
+
+$('.delete-politician').click (e) ->
+	e.preventDefault();
+	id = $(this).data('id')
+	$('#edit-politician-spinner-'+id).removeClass 'hidden'
+	$('#edit-politician-'+id).addClass 'hidden'
+	$('#delete-politician-'+id).addClass 'hidden'
+	getInfo()
+
+	data.politician_id = id
+	data.delete_politician = true
+
+	$.post '/edit-citizen', data , (json) ->
+		if json.success
+			location.reload()
+		else
+			toastr.error(json.message)
+			$('#edit-politician-spinner-'+id).addClass 'hidden'
+			$('#edit-politician-'+id).removeClass 'hidden'
+			$('#delete-politician-'+id).removeClass 'hidden'
+		return
+	return	
+
 $('.delete-donor').click (e) ->
 	e.preventDefault();
 	id = $(this).data('id')
@@ -409,7 +603,7 @@ $('.delete-media').click (e) ->
 
 $('#new-volunteer-skills').select2({
   tags: true
-})
+});
 $('#volunteer-rating').barrating({
 theme: 'fontawesome-stars'
 });
@@ -424,4 +618,22 @@ theme: 'fontawesome-stars'
 });
 $('.volunteer-skills').select2({
   tags: true
-})
+});
+
+$('#new-politician-reasonability_rating').barrating({
+theme: 'fontawesome-stars'
+});
+$('#new-politician-openness_rating').barrating({
+theme: 'fontawesome-stars'
+});
+$('.politician-reasonability_rating').barrating({
+theme: 'fontawesome-stars'
+});
+$('.politician-openness_rating').barrating({
+theme: 'fontawesome-stars'
+});
+
+$('.datepicker').pickadate
+  selectMonths: true
+  selectYears: 15
+  formatSubmit: 'yyyy-mm-dd'

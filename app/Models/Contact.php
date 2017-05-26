@@ -22,4 +22,9 @@ class Contact extends Model
     {
     	return $this->hasMany(Donor::class);
     }    
+
+    public function politician()
+    {
+        return $this->hasMany(Politician::class);
+    }        
 }

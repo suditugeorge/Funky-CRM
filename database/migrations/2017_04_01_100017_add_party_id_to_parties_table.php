@@ -14,7 +14,7 @@ class AddPartyIdToPartiesTable extends Migration
     public function up()
     {
         Schema::table('politicians', function (Blueprint $table) {
-            $table->integer('party_id')->unsigned()->comment('partidul actual')->after('contact_id');
+            $table->integer('party_id')->nullable()->unsigned()->comment('partidul actual')->after('contact_id');
             $table->foreign('party_id')->references('id')->on('parties');
         });
     }

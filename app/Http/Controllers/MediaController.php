@@ -81,11 +81,15 @@ class MediaController extends Controller
             $media->links()->save($link);
         }
 
-        //Stergem link-uri
+        //Stergem/udpate link-uri
         if(isset($request->updates['links'])){
             foreach ($request->updates['links'] as $new_link) {
                 if($new_link['link'] == ""){
                     Link::where('id','=',$new_link['id'])->first()->delete();
+                }else{
+                    $modified_link = Link::where('id','=',$new_link['id'])->first();
+                    $modified_link->url = $new_link['link'];
+                    $modified_link->update();
                 }
             }
         }
