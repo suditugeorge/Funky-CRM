@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Validator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Mail;
@@ -15,6 +16,11 @@ use App\Models\Volunteer;
 use App\Models\Attendance;
 use App\Models\Domain;
 use App\Models\Skill;
+use App\Models\Politician;
+use App\Models\Media;
+use App\Models\Employee;
+use App\Models\Donor;
+use App\Models\Colaborator;
 use App\Http\Controllers\VolunteersController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\DonnerController;
@@ -86,7 +92,123 @@ class UserController extends Controller
 
     public function searchUsers(Request $request)
     {
-        return view('dashboard/users',['user' => Auth::user()]);
+
+        $volunteers_count = Volunteer::count();
+        $media_count = Media::count();
+        $donors_count = Donor::count();
+        $colaborator_count = Colaborator::count();
+        $employee_count = Employee::count();
+        $politicians_count = Politician::count();
+        $contacts_count = Contact::count();
+
+        $data = [
+            'user' => Auth::user(),
+            'volunteers_count' => $volunteers_count,
+            'media_count' => $media_count,
+            'donors_count' => $donors_count,
+            'colaborator_count' => $colaborator_count,
+            'employee_count' => $employee_count,
+            'politicians_count' => $politicians_count,
+            'contacts_count' => $contacts_count
+        ];
+
+        
+
+        if ($request->isMethod('post')) {
+            if(trim($request->search_email) == "" ){
+                if(isset($request->categorie_cetatean)){
+                    switch ($request->categorie_cetatean) {
+                        case 'voluntar':
+                            $contacts = DB::table('contacts')->join('volunteers', 'volunteers.contact_id', '=', 'contacts.id')->select('contacts.*')->get();
+                            break;
+                        case 'media':
+                            $contacts = DB::table('contacts')->join('media', 'media.contact_id', '=', 'contacts.id')->select('contacts.*')->get();
+                            break;
+                        case 'donator':
+                            $contacts = DB::table('contacts')->join('donors', 'donors.contact_id', '=', 'contacts.id')->select('contacts.*')->get();
+                            break;
+                        case 'politician':
+                            $contacts = DB::table('contacts')->join('politicians', 'politicians.contact_id', '=', 'contacts.id')->select('contacts.*')->get();
+                            break;
+                        case 'colaborator':
+                            $contacts = DB::table('contacts')->join('colaborators', 'colaborators.contact_id', '=', 'contacts.id')->select('contacts.*')->get();
+                            break;
+                        case 'functionar':
+                            $contacts = DB::table('contacts')->join('employees', 'employees.contact_id', '=', 'contacts.id')->select('contacts.*')->get();
+                            break;
+                    }
+                    
+                }else{
+                    $contacts = Contact::orderBy('id', 'asc')->paginate(15);
+                }
+
+            }else{
+                if(isset($request->categorie_cetatean)){
+                    $email = $request->search_email;
+                    switch ($request->categorie_cetatean) {
+                        case 'voluntar':
+                            $contacts = DB::table('contacts')
+                                            ->join('volunteers', function ($join) use ($email) {
+                                                $join->on('volunteers.contact_id', '=', 'contacts.id')
+                                                     ->where('contacts.email','like','%'.$email.'%');
+                                            })
+                                            ->get();
+                            break;
+                        case 'media':
+                            $contacts = DB::table('contacts')
+                                            ->join('media', function ($join) use ($email) {
+                                                $join->on('media.contact_id', '=', 'contacts.id')
+                                                     ->where('contacts.email','like','%'.$email.'%');
+                                            })
+                                            ->get();                            
+                            break;
+                        case 'donator':
+                            $contacts = DB::table('contacts')
+                                            ->join('donors', function ($join) use ($email) {
+                                                $join->on('donors.contact_id', '=', 'contacts.id')
+                                                     ->where('contacts.email','like','%'.$email.'%');
+                                            })
+                                            ->get();                             
+                            break;
+                        case 'politician':
+                            $contacts = DB::table('contacts')
+                                            ->join('politicians', function ($join) use ($email) {
+                                                $join->on('politicians.contact_id', '=', 'contacts.id')
+                                                     ->where('contacts.email','like','%'.$email.'%');
+                                            })
+                                            ->get();                             
+                            break;
+                        case 'colaborator':
+                            $contacts = DB::table('contacts')
+                                            ->join('colaborators', function ($join) use ($email) {
+                                                $join->on('colaborators.contact_id', '=', 'contacts.id')
+                                                     ->where('contacts.email','like','%'.$email.'%');
+                                            })
+                                            ->get();                             
+                            break;
+                        case 'functionar':
+                            $contacts = DB::table('contacts')
+                                            ->join('employees', function ($join) use ($email) {
+                                                $join->on('employees.contact_id', '=', 'contacts.id')
+                                                     ->where('contacts.email','like','%'.$email.'%');
+                                            })
+                                            ->get();                             
+                            break;                            
+
+                    }                                                    
+
+                }else{
+                    $contacts = Contact::where('email','like',$request->search_email)->orWhere('email','like','%'.$request->search_email.'%')->paginate(15);                      
+                }
+
+            }
+
+            $data['contacts'] = $contacts;
+        }else{
+            $data['contacts'] = Contact::orderBy('id', 'asc')->paginate(15);
+        }
+
+        return view('dashboard/users',$data);
     }
 
     public function addFunkyUser(Request $request)
