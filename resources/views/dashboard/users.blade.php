@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-Profil
+Contacte
 @endsection
 
 
@@ -54,7 +54,7 @@ Profil
 								<option value="functionar">Funcționar</option>
 							</select>
 							<label>Adaugă categorie</label>
-            </div>            
+            </div>
             <div class="col-md-4 text-right py-1 px-1">
               <button class="btn btn-primary" id="search-contact">Caută</button>
           	</div>

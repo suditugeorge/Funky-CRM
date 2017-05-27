@@ -11,7 +11,6 @@ class ExportController extends Controller
     {
         $contacts = $this->buildQuery($entity)->toArray();
         $contacts = $this->flattenResults($contacts, $entity);
-        dd($contacts);
         Excel::create('Export', function ($excel) use ($contacts, $entity) {
             $excel->sheet(ucfirst($entity), function ($sheet) use ($contacts) {
                 $sheet->fromArray($contacts);
