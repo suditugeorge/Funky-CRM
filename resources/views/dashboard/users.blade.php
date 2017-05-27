@@ -15,12 +15,30 @@ Contacte
             <div class="mt-2">
               <small>Categorii contacte:</small>
               <ul class="striped">
-                <li><span class="bullet green"></span> Voluntari <span class="badge bg-primary float-right">{{ $volunteers_count }}</span></li>
-                <li><span class="bullet blue"></span> Media <span class="badge bg-primary float-right">{{$media_count}}</span></li>
-                <li><span class="bullet red"></span> Donatori <span class="badge bg-primary float-right">{{$donors_count}}</span></li>
-                <li><span class="bullet yellow"></span> Colaboratori <span class="badge bg-primary float-right">{{$colaborator_count}}</span></li>
-                <li><span class="bullet orange"></span> Funcționari publici <span class="badge bg-primary float-right">{{$employee_count}}</span></li>
-                <li><span class="bullet deep-purple"></span> Politicieni <span class="badge bg-primary label-pill float-right">{{$politicians_count}}</span></li>
+                <li>
+                  <span class="bullet green"></span> Voluntari <span class="badge bg-primary float-right">{{ $volunteers_count }}</span>
+                  <a href="{{ route('export', ['entity' => 'volunteers', 'format' => 'xls']) }}"><i class="fa fa-file-excel-o float-right"></i></a>
+                </li>
+                <li>
+                  <span class="bullet blue"></span> Media <span class="badge bg-primary float-right">{{$media_count}}</span>
+                  <a href="{{ route('export', ['entity' => 'media', 'format' => 'xls']) }}"><i class="fa fa-file-excel-o float-right"></i></a>
+                </li>
+                <li>
+                  <span class="bullet red"></span> Donatori <span class="badge bg-primary float-right">{{$donors_count}}</span>
+                  <a href="{{ route('export', ['entity' => 'donors', 'format' => 'xls']) }}"><i class="fa fa-file-excel-o float-right"></i></a>
+                </li>
+                <li>
+                  <span class="bullet yellow"></span> Colaboratori <span class="badge bg-primary float-right">{{$colaborator_count}}</span>
+                  <a href="{{ route('export', ['entity' => 'colaborators', 'format' => 'xls']) }}"><i class="fa fa-file-excel-o float-right"></i></a>
+                </li>
+                <li>
+                  <span class="bullet orange"></span> Funcționari publici <span class="badge bg-primary float-right">{{$employee_count}}</span>
+                  <a href="{{ route('export', ['entity' => 'employees', 'format' => 'xls']) }}"><i class="fa fa-file-excel-o float-right"></i></a>
+                </li>
+                <li>
+                  <span class="bullet deep-purple"></span> Politicieni <span class="badge bg-primary label-pill float-right">{{$politicians_count}}</span>
+                  <a href="{{ route('export', ['entity' => 'politicians', 'format' => 'xls']) }}"><i class="fa fa-file-excel-o float-right"></i></a>
+                </li>
               </ul>
             </div>
           </div>
